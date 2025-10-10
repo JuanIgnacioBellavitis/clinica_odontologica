@@ -43,13 +43,13 @@ public class DomicilioDAOH2 implements IDAO<Domicilio> {
 		return List.of();
 	}
 
-	@Override
-	public void eliminar(Domicilio domicilio) {
+    @Override
+    public void eliminar(Integer id) {
 
 	}
 
-	@Override
-	public void modificar(Domicilio domicilio) {
-
-	}
+    @Override
+    public Domicilio modificar(Domicilio domicilio) {
+        return domicilio;
+    }
 }
