@@ -41,7 +41,7 @@ public class ClinicaOdontologicaApplication {
 		pacienteModificado.setApellido("Sim");
 		pacienteModificado.setEmail("homerJSimpson@mail.com");
 		pacienteModificado.setFechaIngreso(LocalDate.now());
-
+		System.out.println("---------------INFORMACION DE PACIENTES--------------------------");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Paciente guardado: " + pacienteGuardado);
 		System.out.println("----------------------------------------------------");
@@ -75,7 +75,7 @@ public class ClinicaOdontologicaApplication {
 		odontologoModificado.setNombre("Bobina");
 		odontologoModificado.setApellido("Ruxon");
 		odontologoModificado.setMatricula(123123);
-
+		System.out.println("---------------INFORMACION DE ODONTOLOGOS--------------------------");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Odontologo guardado: " + odontologoGuardado);
 		System.out.println("----------------------------------------------------");
