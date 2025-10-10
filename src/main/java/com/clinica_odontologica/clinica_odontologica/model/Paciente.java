@@ -1,9 +1,6 @@
 package com.clinica_odontologica.clinica_odontologica.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -11,6 +8,7 @@ import java.time.LocalDate;
 @Setter
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Paciente {
     private int id;
     private String nombre;
