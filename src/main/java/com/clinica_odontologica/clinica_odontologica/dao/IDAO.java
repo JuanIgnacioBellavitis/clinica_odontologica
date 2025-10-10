@@ -11,9 +11,9 @@ public interface IDAO<T> {
     List<T> buscarTodos();
 
     // Eliminar
-    void eliminar(T t);
+    void eliminar(Integer id);
 
     // Modificar
-    void modificar(T t);
+    T modificar(T t);
 
 }

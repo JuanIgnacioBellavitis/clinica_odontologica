@@ -4,6 +4,7 @@ import com.clinica_odontologica.clinica_odontologica.model.Domicilio;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PacienteDAOH2 implements IDAO<Paciente> {
@@ -35,6 +36,8 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
             connection = BD.getConnection();
             PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
+            System.out.println("LLEGA PACIENTE: " + paciente);
+
             ps.setString(1, paciente.getNombre());
             ps.setString(2, paciente.getApellido());
             ps.setInt(3, paciente.getNumeroContacto());
@@ -45,24 +48,22 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-            while(rs.next()) {
-                pacienteGuardado = new Paciente();
-                pacienteGuardado.setId(rs.getInt(1));
-                pacienteGuardado.setNombre(rs.getString(2));
-                pacienteGuardado.setApellido(rs.getString(3));
-                pacienteGuardado.setNumeroContacto(rs.getInt(4));
-                pacienteGuardado.setFechaIngreso(rs.getDate(5).toLocalDate());
-                pacienteGuardado.setDomicilio(rs.getString(6));
-                pacienteGuardado.setEmail(rs.getString(7));
+            if (rs.next()) {
+                pacienteGuardado = new Paciente(
+                        rs.getInt(1),
+                        paciente.getNombre(),
+                        paciente.getApellido(),
+                        paciente.getNumeroContacto(),
+                        paciente.getFechaIngreso(),
+                        paciente.getDomicilio(),
+                        paciente.getEmail()
+                );
             }
-
-            System.out.println("Paciente guardado: " + pacienteGuardado);
 
             return pacienteGuardado;
         } catch(Exception ex) {
             System.out.println("Error al intentar guardar Paciente: " + ex.getMessage());
         }
-
 
         return null;
     }
@@ -95,15 +96,78 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
 
     @Override
     public List<Paciente> buscarTodos() {
-        return List.of();
+        List<Paciente> listarPacientes = new ArrayList<>();
+        Connection connection = null;
+
+        try {
+            connection = BD.getConnection();
+            PreparedStatement ps_select_all = connection.prepareStatement(SQL_SELECT_ALL);
+            ResultSet resultSet = ps_select_all.executeQuery();
+
+            while(resultSet.next()) {
+                listarPacientes.add(mapearPaciente(resultSet));
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL BUSCAR PACIENTES: "+e.getMessage());
+        }
+
+        return listarPacientes;
     }
 
     @Override
-    public void eliminar(Paciente paciente) {
+    public void eliminar(Integer id) {
+        Connection connection = null;
+
+        try {
+            connection = BD.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Paciente eliminado: " + id);
+        } catch (Exception e) {
+            System.err.println("ERROR AL ELIMINAR PACIENTES: "+e.getMessage());
+        }
     }
 
     @Override
-    public void modificar(Paciente paciente) {
+    public Paciente modificar(Paciente paciente) {
+        Connection connection = null;
 
+        try {
+            connection = BD.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+
+            preparedStatement.setString(1, paciente.getNombre());
+            preparedStatement.setString(2, paciente.getApellido());
+            preparedStatement.setInt(3, paciente.getNumeroContacto());
+            preparedStatement.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
+            preparedStatement.setString(5, paciente.getDomicilio());
+            preparedStatement.setString(6, paciente.getEmail());
+            preparedStatement.setInt(7, paciente.getId());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("Paciente modificado: " + paciente.getId());
+
+            return paciente;
+        } catch (Exception e) {
+            System.out.println("ERROR AL MODIFICAR PACIENTE: "+e.getMessage());
+        }
+
+        return null;
+    }
+
+    private Paciente mapearPaciente(ResultSet rs) throws SQLException {
+        return new Paciente(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getInt(4),
+                rs.getDate(5).toLocalDate(),
+                rs.getString(6),
+                rs.getString(7)
+        );
     }
 }

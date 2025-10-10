@@ -23,11 +23,11 @@ public class BD {
             statement.execute("DROP TABLE IF EXISTS PACIENTES");
             statement.execute("CREATE TABLE PACIENTES(ID INT AUTO_INCREMENT PRIMARY KEY, NOMBRE VARCHAR(100) NOT NULL, APELLIDO VARCHAR(100) NOT NULL, NUMEROCONTACTO INT NOT NULL, FECHAINGRESO DATE NOT NULL, DOMICILIO_ID INT NOT NULL, EMAIL VARCHAR(100) NOT NULL)");
 
-            statement.execute("INSERT INTO DOMICILIOS(CALLE, NUMERO, LOCALIDAD, PROVINCIA) VALUES ('siempre viva', 723, 'Springfield', 'USA')");
-            statement.execute("INSERT INTO DOMICILIOS(CALLE, NUMERO, LOCALIDAD, PROVINCIA) VALUES ('calle falsa', 123, 'Springfield', 'USA')");
+            statement.execute("INSERT INTO DOMICILIOS(CALLE, NUMERO, LOCALIDAD, PROVINCIA) VALUES ('siempre viva', '723', 'Springfield', 'USA')");
+            statement.execute("INSERT INTO DOMICILIOS(CALLE, NUMERO, LOCALIDAD, PROVINCIA) VALUES ('calle falsa', '123', 'Springfield', 'USA')");
 
-            statement.execute("INSERT INTO PACIENTES (NOMBRE, APELLIDO, NUMEROCONTACTO, FECHAINGRESO, DOMICILIO_ID, EMAIL) VALUES ('Homero', 'Simpson', 11223344, '2025-10-09', 1, 'homero@disney.com')");
-            statement.execute("INSERT INTO PACIENTES (NOMBRE, APELLIDO, NUMEROCONTACTO, FECHAINGRESO, DOMICILIO_ID, EMAIL) VALUES ('Marge', 'Simpson', 99887766, '2025-08-09', 2, 'marge@disney.com')");
+            statement.execute("INSERT INTO PACIENTES (NOMBRE, APELLIDO, NUMEROCONTACTO, FECHAINGRESO, DOMICILIO_ID, EMAIL) VALUES ('Homero', 'Simpson', '11223344', '2025-10-09', '1', 'homero@disney.com')");
+            statement.execute("INSERT INTO PACIENTES (NOMBRE, APELLIDO, NUMEROCONTACTO, FECHAINGRESO, DOMICILIO_ID, EMAIL) VALUES ('Marge', 'Simpson', '99887766', '2025-08-09', '2', 'marge@disney.com')");
 
             System.out.println("Tablas creadas y datos cargados correctamente");
         } catch (Exception e){

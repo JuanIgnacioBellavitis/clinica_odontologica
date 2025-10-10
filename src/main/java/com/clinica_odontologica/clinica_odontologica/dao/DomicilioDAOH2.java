@@ -44,12 +44,12 @@ public class DomicilioDAOH2 implements IDAO<Domicilio> {
     }
 
     @Override
-    public void eliminar(Domicilio domicilio) {
+    public void eliminar(Integer id) {
 
     }
 
     @Override
-    public void modificar(Domicilio domicilio) {
-
+    public Domicilio modificar(Domicilio domicilio) {
+        return domicilio;
     }
 }
