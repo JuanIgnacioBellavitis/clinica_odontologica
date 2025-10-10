@@ -1,6 +1,10 @@
 package com.clinica_odontologica.clinica_odontologica;
 
+import com.clinica_odontologica.clinica_odontologica.dao.OdontologoDAOH2;
+import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
+import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.clinica_odontologica.clinica_odontologica.dao.BD;
@@ -8,18 +12,143 @@ import com.clinica_odontologica.clinica_odontologica.dao.PacienteDAOH2;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class PacienteTest {
+    @Test
+    @DisplayName("Buscar paciente con ID")
+    public void buscarPaciente(){
+        System.out.println("************ BUSCAR PACIENTE ************");
+        // Arrange
+        BD.crearTablas();
+        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
 
-	@Test
-	public void buscarPaciente() {
-		BD.crearTablas();
-		PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+        // Act
+        Paciente paciente = pacienteService.buscar(1);
+        System.out.println("Datos encontreados: " + paciente);
 
-		//
-		Paciente paciente = pacienteService.buscarPacientePorId(2);
-		System.out.println("Datos encontreados: " + paciente);
+        // Assert
+        System.out.println("Paciente encontrado: " + paciente);
+        Assertions.assertTrue(paciente != null);
+        Assertions.assertEquals("Simpson", paciente.getApellido());
+        Assertions.assertEquals("1", paciente.getDomicilio());
+        System.out.println("*****************************************");
+    }
 
-		// ENTONCES
-		Assertions.assertTrue(paciente != null);
-	}
+    @Test
+    @DisplayName("Buscar Paciente por NOMBRE")
+    public void buscarPacientePorNombre() {
+        System.out.println("************ BUSCAR ODONTOLOGO POR NOMBRE ************");
+        // Arrange
+        BD.crearTablas();
+        PacienteService pacienteService  = new PacienteService(new PacienteDAOH2());
+
+        // Act
+        Paciente paciente = pacienteService.buscarPorNombre("Marge");
+        System.out.println("Datos encontrados: " + paciente);
+
+        // Assert
+        System.out.println("Paciente encontrado: " + paciente);
+        Assertions.assertTrue(paciente != null);
+        System.out.println("*****************************************");
+    }
+
+
+    @Test
+    @DisplayName("Obtener listado de pacientes")
+    public void obtenerTodosLosPacientes() {
+        System.out.println("************ LISTAR TODOS PACIENTES ************");
+        BD.crearTablas();
+        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+
+        List<Paciente> pacientesIniciales = pacienteService.buscarTodos();
+
+        System.out.println("Pacientes encontrados: " + pacientesIniciales);
+        Assertions.assertEquals(2, pacientesIniciales.size());
+        System.out.println("*************************************************");
+    }
+
+    @Test
+    @DisplayName("Guardado existoso de paciente")
+    public void guardarPaciente() {
+        System.out.println("************ GUARDAR PACIENTES ************");
+        // Arrange
+        BD.crearTablas();
+        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+
+        Paciente nuevo = new Paciente("Lisa", "Simpson", 11223344,
+                "1", "lisa@disney.com", LocalDate.of(2025, 10, 9));
+
+        // Act
+        Paciente guardado = pacienteService.guardar(nuevo);
+        System.out.println("Paciente guardado: " + guardado);
+
+        // Assert
+        Assertions.assertNotNull(guardado);
+        Assertions.assertNotNull(guardado.getId());
+        Assertions.assertEquals("Lisa", guardado.getNombre());
+        Assertions.assertEquals("Simpson", guardado.getApellido());
+        System.out.println("********************************************");
+    }
+
+    @Test
+    @DisplayName("Eliminar paciente existente")
+    public void eliminarPaciente() {
+        System.out.println("************ ELIMINAR PACIENTE ************");
+        // Arrange
+        BD.crearTablas();
+        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+
+        // Act
+        // Comprobamos que inicialmente hay 2 pacientes
+        List<Paciente> antes = pacienteService.buscarTodos();
+        Assertions.assertEquals(2, antes.size());
+
+        // Eliminamos al paciente con ID 1
+        List<Paciente> despues = pacienteService.eliminar(1);
+
+        // Validamos que la lista ahora tiene 1 menos
+        Assertions.assertEquals(1, despues.size());
+
+        // Assert
+        // Verificamos que no exista el ID 1
+        Paciente eliminado = despues.stream()
+                .filter(p -> p.getId() == 1)
+                .findFirst()
+                .orElse(null);
+
+
+        Assertions.assertNull(eliminado);
+        System.out.println("********************************************");
+    }
+
+    @Test
+    @DisplayName("Modificar paciente existente")
+    public void modificarPaciente() {
+        System.out.println("************ MODIFICAR PACIENTE ************");
+        // Arrange
+        BD.crearTablas();
+        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+
+        // Act
+        Paciente paciente = pacienteService.buscar(1);
+        Assertions.assertNotNull(paciente);
+
+        paciente.setNombre("Homero Jay");
+        paciente.setEmail("homero.jay@springfield.com");
+        paciente.setNumeroContacto(99999999);
+
+        Paciente modificado = pacienteService.modificar(paciente);
+
+        Paciente verificado = pacienteService.buscar(modificado.getId());
+
+        // Assert
+        System.out.println("Paciente modificado: " + verificado);
+        Assertions.assertNotNull(verificado);
+        Assertions.assertEquals("Homero Jay", verificado.getNombre());
+        Assertions.assertEquals("homero.jay@springfield.com", verificado.getEmail());
+        Assertions.assertEquals(99999999, verificado.getNumeroContacto());
+        System.out.println("********************************************");
+    }
 }

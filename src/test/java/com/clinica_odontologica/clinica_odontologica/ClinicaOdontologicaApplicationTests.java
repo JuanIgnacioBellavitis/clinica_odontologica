@@ -9,5 +9,4 @@ class ClinicaOdontologicaApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

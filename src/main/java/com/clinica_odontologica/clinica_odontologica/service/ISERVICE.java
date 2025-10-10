@@ -8,9 +8,7 @@ public interface ISERVICE<T> {
 
 	// Buscar
 	T buscar(Integer id);
-	// Buscar
-		T buscarPorNombre(String parametro);
-
+    T buscarPorNombre(String parametro);
 	List<T> buscarTodos();
 
 	// Eliminar

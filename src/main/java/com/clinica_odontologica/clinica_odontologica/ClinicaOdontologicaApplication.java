@@ -27,35 +27,40 @@ public class ClinicaOdontologicaApplication {
 		Paciente pacienteGuardado = null;
 		Paciente pacienteEncontrado = null;
 		Paciente pacienteModificado = null;
+        Paciente pacienteEncontradoPorNombre = null;
 		List<Paciente> listadoPacientes = null;
 
 		Paciente paciente = new Paciente("Bart", "Simpson", 11223344, "1", "bart@disney.com",
 				LocalDate.of(2025, 10, 9));
 
-		pacienteGuardado = pacienteService.guardarPaciente(paciente);
-		pacienteEncontrado = pacienteService.buscarPacientePorId(2);
-		listadoPacientes = pacienteService.buscarPacientes();
+		pacienteGuardado = pacienteService.guardar(paciente);
+		pacienteEncontrado = pacienteService.buscar(2);
+		listadoPacientes = pacienteService.buscarTodos();
 
-		pacienteModificado = pacienteService.buscarPacientePorId(1);
+		pacienteModificado = pacienteService.buscar(1);
 		pacienteModificado.setNombre("Homer Jackson");
 		pacienteModificado.setApellido("Sim");
 		pacienteModificado.setEmail("homerJSimpson@mail.com");
 		pacienteModificado.setFechaIngreso(LocalDate.now());
+        pacienteEncontradoPorNombre = pacienteService.buscarPorNombre("Marge");
+
 		System.out.println("---------------INFORMACION DE PACIENTES--------------------------");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Paciente guardado: " + pacienteGuardado);
 		System.out.println("----------------------------------------------------");
 		System.out.println("Paciente encontrado con ID 2: " + pacienteEncontrado);
 		System.out.println("----------------------------------------------------");
+        System.out.println("Paciente encontrado con nombre: " + pacienteEncontradoPorNombre);
+        System.out.println("----------------------------------------------------");
 		System.out.println("Listado de Pacientes: ");
 		System.out.println(listadoPacientes);
 		System.out.println("----------------------------------------------------");
 		System.out.println("Eliminar paciente: 2");
-		List<Paciente> nuevoListado = pacienteService.eliminarPaciente(2);
+		List<Paciente> nuevoListado = pacienteService.eliminar(2);
 		System.out.println(nuevoListado);
 		System.out.println("----------------------------------------------------");
 		System.out.println("Modificado paciente: 1");
-		System.out.println(pacienteService.modificarPaciente(pacienteModificado));
+		System.out.println(pacienteService.modificar(pacienteModificado));
 
 		OdontologoDAOH2 odontologoDAOH2 = new OdontologoDAOH2();
 		OdontologoService odontologoService = new OdontologoService(odontologoDAOH2);
@@ -77,6 +82,7 @@ public class ClinicaOdontologicaApplication {
 		odontologoModificado.setNombre("Bobina");
 		odontologoModificado.setApellido("Ruxon");
 		odontologoModificado.setMatricula(123123);
+
 		System.out.println("---------------INFORMACION DE ODONTOLOGOS--------------------------");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Odontologo guardado: " + odontologoGuardado);
@@ -89,7 +95,7 @@ public class ClinicaOdontologicaApplication {
 		System.out.println("Listado de Odontologos: ");
 		System.out.println(listadoOdontologos);
 		System.out.println("----------------------------------------------------");
-		System.out.println("Eliminar paciente: 2");
+		System.out.println("Eliminar odontologo: 2");
 		List<Odontologo> nuevoListadoOdontologo = odontologoService.eliminar(2);
 		System.out.println(nuevoListadoOdontologo);
 		System.out.println("----------------------------------------------------");

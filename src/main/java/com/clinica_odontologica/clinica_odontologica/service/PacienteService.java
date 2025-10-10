@@ -1,37 +1,45 @@
 package com.clinica_odontologica.clinica_odontologica.service;
 
-import java.util.List;
-
 import com.clinica_odontologica.clinica_odontologica.dao.IDAO;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 
-public class PacienteService {
-	private IDAO<Paciente> pacienteDAO;
+import java.util.List;
 
-	public PacienteService(IDAO<Paciente> pacienteDAO) {
-		this.pacienteDAO = pacienteDAO;
-	}
+public class PacienteService implements ISERVICE<Paciente>{
+    private IDAO<Paciente> pacienteDAO;
 
-	public Paciente guardarPaciente(Paciente paciente) {
-		return pacienteDAO.guardar(paciente);
-	}
+    public PacienteService(IDAO<Paciente> pacienteDAO) {
+        this.pacienteDAO = pacienteDAO;
+    }
 
-	public List<Paciente> buscarPacientes() {
-		return pacienteDAO.buscarTodos();
-	}
+    // GUARDAR PACIENTE
+    public Paciente guardar(Paciente paciente) {
+        return pacienteDAO.guardar(paciente);
+    }
 
-	public Paciente buscarPacientePorId(Integer id) {
-		return pacienteDAO.buscar(id);
-	}
+    // LISTADO TODOS LOS PACIENTES
+    public List<Paciente> buscarTodos(){
+        return pacienteDAO.buscarTodos();
+    }
 
-	public List<Paciente> eliminarPaciente(Integer id) {
-		pacienteDAO.eliminar(id);
-		List<Paciente> pacientesRestantes = pacienteDAO.buscarTodos();
+    // BUSCAR PACIENTE POR ID
+    public Paciente buscar(Integer id){
+        return pacienteDAO.buscar(id);
+    }
 
-		return pacientesRestantes;
-	}
+    @Override
+    public Paciente buscarPorNombre(String parametro) {
+        return pacienteDAO.buscarPorString(parametro);
+    }
 
-	public Paciente modificarPaciente(Paciente paciente) {
-		return pacienteDAO.modificar(paciente);
-	}
+    // ELIMINAR PACIENTE
+    public List<Paciente> eliminar(Integer id){
+         pacienteDAO.eliminar(id);
+         return pacienteDAO.buscarTodos();
+    }
+
+    // MODIFICAR PACIENTE
+    public Paciente modificar(Paciente paciente){
+        return  pacienteDAO.modificar(paciente);
+    }
 }

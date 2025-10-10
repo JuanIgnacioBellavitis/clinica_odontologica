@@ -12,12 +12,13 @@ public interface IDAO<T> {
 	// Buscar
 	T buscarPorString(String string);
 
+    // Buscar
+    List<T> buscarTodos();
+
 	// Eliminar
 	void eliminar(Integer id);
 
 	// Modificar
 
 	T modificar(T t);
-
-	List<T> buscarTodos();
 }
