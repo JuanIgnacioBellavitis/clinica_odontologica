@@ -26,6 +26,10 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
     private static final String SQL_DELETE =
             "DELETE FROM PACIENTES WHERE ID=?";
 
+    private static final String SQL_SELECT_NAME =
+            "SELECT * FROM PACIENTES WHERE NOMBRE = ?";
+
+
     @Override
     public Paciente guardar(Paciente paciente) {
         Paciente pacienteGuardado = null;
