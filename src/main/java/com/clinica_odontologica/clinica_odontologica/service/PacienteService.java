@@ -20,18 +20,18 @@ public class PacienteService {
 		return pacienteDAO.buscarTodos();
 	}
 
-    public Paciente buscarPacientePorId(Integer id){
-        return pacienteDAO.bucar(id);
-    }
+	public Paciente buscarPacientePorId(Integer id) {
+		return pacienteDAO.buscar(id);
+	}
 
-    public List<Paciente> eliminarPaciente(Integer id){
-        pacienteDAO.eliminar(id);
-        List<Paciente> pacientesRestantes = pacienteDAO.buscarTodos();
+	public List<Paciente> eliminarPaciente(Integer id) {
+		pacienteDAO.eliminar(id);
+		List<Paciente> pacientesRestantes = pacienteDAO.buscarTodos();
 
-        return pacientesRestantes;
-    }
+		return pacientesRestantes;
+	}
 
-    public Paciente modificarPaciente(Paciente paciente){
-        return pacienteDAO.modificar(paciente);
-    }
+	public Paciente modificarPaciente(Paciente paciente) {
+		return pacienteDAO.modificar(paciente);
+	}
 }

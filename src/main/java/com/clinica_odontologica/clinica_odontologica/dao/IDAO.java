@@ -9,10 +9,12 @@ public interface IDAO<T> {
 	// Buscar
 	T buscar(Integer id);
 
-    // Eliminar
-    void eliminar(Integer id);
+	// Eliminar
+	void eliminar(Integer id);
 
-    // Modificar
-    T modificar(T t);
+	// Modificar
 
+	T modificar(T t);
+
+	List<T> buscarTodos();
 }

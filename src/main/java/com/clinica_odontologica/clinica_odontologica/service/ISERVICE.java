@@ -12,9 +12,9 @@ public interface ISERVICE<T> {
 	List<T> buscarTodos();
 
 	// Eliminar
-	void eliminar(T t);
+	List<T> eliminar(Integer id);
 
 	// Modificar
-	void modificar(T t);
+	T modificar(T t);
 
 }
