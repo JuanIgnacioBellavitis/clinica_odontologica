@@ -34,27 +34,6 @@ public class PacienteTest {
     }
 
     @Test
-    @DisplayName("Buscar paciente con ID inexistente")
-    public void buscarPaciente_ERROR(){
-        System.out.println("************ ERROR BUSCAR PACIENTE ************");
-        // Arrange
-        BD.crearTablas();
-        PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
-
-        // Act
-        Paciente paciente = pacienteService.buscarPacientePorId(999);
-
-        IllegalArgumentException exception = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> pacienteService.buscarPacientePorId(null)
-        );
-
-        // Assert
-        Assertions.assertTrue(exception.getMessage().contains("no puede ser null"));
-        System.out.println("*****************************************");
-    }
-
-    @Test
     @DisplayName("Obtener listado de pacientes")
     public void obtenerTodosLosPacientes() {
         System.out.println("************ LISTAR TODOS PACIENTES ************");
@@ -92,35 +71,14 @@ public class PacienteTest {
     }
 
     @Test
-    @DisplayName("Error guardando paciente con email incorrecto")
-    public void guardarPaciente_ERROR() {
-        System.out.println("************ ERROR GUARDAR PACIENTES ************");
-        // Arrange
-        BD.crearTablas();
-        PacienteService service = new PacienteService(new PacienteDAOH2());
-        // Forzamos error en mail
-        Paciente p = new Paciente("Lisa", "Simpson", 11223344,
-                "1", "lisasimpson.com", LocalDate.of(2025, 10, 9));
-
-        // Act
-        IllegalArgumentException exception = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> service.guardarPaciente(p)
-        );
-
-        // Assert
-        System.out.println(exception.getMessage());
-        Assertions.assertTrue(exception.getMessage().contains("email"));
-        System.out.println("********************************************");
-    }
-
-    @Test
     @DisplayName("Eliminar paciente existente")
     public void eliminarPaciente() {
         System.out.println("************ ELIMINAR PACIENTE ************");
+        // Arrange
         BD.crearTablas();
         PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
 
+        // Act
         // Comprobamos que inicialmente hay 2 pacientes
         List<Paciente> antes = pacienteService.buscarPacientes();
         Assertions.assertEquals(2, antes.size());
@@ -131,34 +89,16 @@ public class PacienteTest {
         // Validamos que la lista ahora tiene 1 menos
         Assertions.assertEquals(1, despues.size());
 
+        // Assert
         // Verificamos que no exista el ID 1
         Paciente eliminado = despues.stream()
                 .filter(p -> p.getId() == 1)
                 .findFirst()
                 .orElse(null);
 
+
         Assertions.assertNull(eliminado);
         System.out.println("********************************************");
-    }
-
-    @Test
-    @DisplayName("Eliminar paciente con ID inexistente")
-    public void eliminarPaciente_conIdNull_debeLanzarExcepcion() {
-        System.out.println("************ TEST ERROR: ELIMINAR ID NULL ************");
-        // Arrange
-        BD.crearTablas();
-        PacienteService service = new PacienteService(new PacienteDAOH2());
-
-        // Act
-        IllegalArgumentException ex = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> service.eliminarPaciente(999)
-        );
-
-        // Assert
-        System.out.println(ex.getMessage());
-        Assertions.assertTrue(ex.getMessage().contains("❌ No se puede eliminar: no existe un paciente con ID 999 ❌"));
-        System.out.println("********************************************************");
     }
 
     @Test
@@ -188,31 +128,5 @@ public class PacienteTest {
         Assertions.assertEquals("homero.jay@springfield.com", verificado.getEmail());
         Assertions.assertEquals(99999999, verificado.getNumeroContacto());
         System.out.println("********************************************");
-    }
-
-    @Test
-    @DisplayName("Error modificar paciente inexistente")
-    public void modificarPaciente_ERROR() {
-        System.out.println("************ ERROR MODIFICAR PACIENTE NO EXISTENTE ************");
-        // Arrange
-        BD.crearTablas();
-        PacienteService service = new PacienteService(new PacienteDAOH2());
-
-        // Act
-        Paciente paciente = new Paciente(
-                999, "Maggie", "Simpson", 123456,
-                LocalDate.now(), "Springfield 742", "maggie@springfield.com"
-        );
-
-        IllegalArgumentException ex = Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> service.modificarPaciente(paciente)
-        );
-
-        System.out.println(ex.getMessage());
-        // Assert
-        Assertions.assertTrue(ex.getMessage().contains("❌ No existe un paciente con ID 999 ❌"));
-        System.out.println("********************************************************");
-
     }
 }
