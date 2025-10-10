@@ -1,8 +1,8 @@
-package com.clinica_odontologica.clinica_odontologica.dao;
+package com.clinica_odontologica.clinica_odontologica.service;
 
 import java.util.List;
 
-public interface IDAO<T> {
+public interface ISERVICE<T> {
 	// Guardar
 	T guardar(T t);
 

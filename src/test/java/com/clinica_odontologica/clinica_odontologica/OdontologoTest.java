@@ -4,22 +4,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.clinica_odontologica.clinica_odontologica.dao.BD;
+import com.clinica_odontologica.clinica_odontologica.dao.OdontologoDAOH2;
 import com.clinica_odontologica.clinica_odontologica.dao.PacienteDAOH2;
+import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
 import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 
-public class PacienteTest {
-
+public class OdontologoTest {
 	@Test
 	public void buscarPaciente() {
 		BD.crearTablas();
-		PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
+		OdontologoService odontologoService = new OdontologoService(new OdontologoDAOH2());
 
 		//
-		Paciente paciente = pacienteService.buscarPacientePorId(2);
-		System.out.println("Datos encontreados: " + paciente);
+		Odontologo odontologo = odontologoService.buscar(2);
+		System.out.println("Datos encontrados: " + odontologo);
 
 		// ENTONCES
-		Assertions.assertTrue(paciente != null);
+		Assertions.assertTrue(odontologo != null);
 	}
 }

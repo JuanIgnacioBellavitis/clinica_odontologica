@@ -1,26 +1,26 @@
 package com.clinica_odontologica.clinica_odontologica.service;
 
+import java.util.List;
+
 import com.clinica_odontologica.clinica_odontologica.dao.IDAO;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 
-import java.util.List;
-
 public class PacienteService {
-    private IDAO<Paciente> pacienteDAO;
+	private IDAO<Paciente> pacienteDAO;
 
-    public PacienteService(IDAO<Paciente> pacienteDAO) {
-        this.pacienteDAO = pacienteDAO;
-    }
+	public PacienteService(IDAO<Paciente> pacienteDAO) {
+		this.pacienteDAO = pacienteDAO;
+	}
 
-    public Paciente guardarPaciente(Paciente paciente) {
-        return pacienteDAO.guardar(paciente);
-    }
+	public Paciente guardarPaciente(Paciente paciente) {
+		return pacienteDAO.guardar(paciente);
+	}
 
-    public List<Paciente> buscarPacientes(){
-        return pacienteDAO.buscarTodos();
-    }
+	public List<Paciente> buscarPacientes() {
+		return pacienteDAO.buscarTodos();
+	}
 
-    public Paciente buscarPacientePorId(Integer id){
-        return pacienteDAO.bucar(id);
-    }
+	public Paciente buscarPacientePorId(Integer id) {
+		return pacienteDAO.buscar(id);
+	}
 }
