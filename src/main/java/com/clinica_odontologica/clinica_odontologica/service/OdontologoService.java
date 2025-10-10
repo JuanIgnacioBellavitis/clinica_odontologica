@@ -22,6 +22,10 @@ public class OdontologoService implements ISERVICE<Odontologo> {
 	public Odontologo buscar(Integer id) {
 		return odontologoDAO.buscar(id);
 	}
+	@Override
+	public Odontologo buscarPorNombre(String parametro) {
+		return odontologoDAO.buscarPorString(parametro);
+	}
 
 	@Override
 	public List<Odontologo> buscarTodos() {

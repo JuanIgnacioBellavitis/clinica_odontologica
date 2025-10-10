@@ -53,4 +53,10 @@ public class DomicilioDAOH2 implements IDAO<Domicilio> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public Domicilio buscarPorString(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -62,6 +62,7 @@ public class ClinicaOdontologicaApplication {
 
 		Odontologo odontologoGuardado = null;
 		Odontologo odontologoEncontrado = null;
+		Odontologo odontologoEncontradoPorNombre = null;
 		Odontologo odontologoModificado = null;
 		List<Odontologo> listadoOdontologos = null;
 
@@ -69,6 +70,7 @@ public class ClinicaOdontologicaApplication {
 
 		odontologoGuardado = odontologoService.guardar(odontologo);
 		odontologoEncontrado = odontologoService.buscar(2);
+		odontologoEncontradoPorNombre = odontologoService.buscarPorNombre("Luciano");
 		listadoOdontologos = odontologoService.buscarTodos();
 
 		odontologoModificado = odontologoService.buscar(1);
@@ -80,6 +82,9 @@ public class ClinicaOdontologicaApplication {
 		System.out.println("Odontologo guardado: " + odontologoGuardado);
 		System.out.println("----------------------------------------------------");
 		System.out.println("Odontologo encontrado con ID 2: " + odontologoEncontrado);
+		System.out.println("----------------------------------------------------");
+		System.out.println("----------------------------------------------------");
+		System.out.println("Odontologo encontrado por NOMBRE : " + odontologoEncontradoPorNombre);
 		System.out.println("----------------------------------------------------");
 		System.out.println("Listado de Odontologos: ");
 		System.out.println(listadoOdontologos);

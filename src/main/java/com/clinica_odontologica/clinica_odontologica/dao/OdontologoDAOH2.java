@@ -14,6 +14,7 @@ public class OdontologoDAOH2 implements IDAO<Odontologo> {
 	private IDAO<Odontologo> odontologoDAO;
 	private static final String SQL_INSERT = "INSERT INTO ODONTOLOGOS (NOMBRE, APELLIDO, MATRICULA) VALUES (?, ?, ?)";
 	private static final String SQL_SELECT_ONE = "SELECT * FROM ODONTOLOGOS WHERE ID =?";
+	private static final String SQL_SELECT_NOMBRE = "SELECT * FROM ODONTOLOGOS WHERE NOMBRE =?";
 	private static final String SQL_SELECT_ALL = "SELECT * FROM ODONTOLOGOS";
 	private static final String SQL_DELETE = "DELETE FROM ODONTOLOGOS WHERE ID=?";
 	private static final String SQL_UPDATE = "UPDATE ODONTOLOGOS SET NOMBRE=?, APELLIDO=?, MATRICULA=? WHERE ID=?";
@@ -67,6 +68,29 @@ public class OdontologoDAOH2 implements IDAO<Odontologo> {
 			}
 		} catch (Exception e) {
 			System.out.println("ERROR AL BUSCAR ODONTOLOGO: " + e.getMessage());
+		}
+
+		return odontologo;
+	}
+	
+	@Override
+	public Odontologo buscarPorString(String parametro) {
+		Connection connection = null;
+		Odontologo odontologo = null;
+
+		try {
+			connection = BD.getConnection();
+			Statement statement = connection.createStatement();
+			PreparedStatement ps_select_nombre = connection.prepareStatement(SQL_SELECT_NOMBRE);
+			ps_select_nombre.setString(1, parametro);
+			ResultSet resultSet = ps_select_nombre.executeQuery();
+
+			while (resultSet.next()) {
+				odontologo = new Odontologo(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getInt(4));
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR AL BUSCAR ODONTOLOGO POR NOMBRE: " + e.getMessage());
 		}
 
 		return odontologo;

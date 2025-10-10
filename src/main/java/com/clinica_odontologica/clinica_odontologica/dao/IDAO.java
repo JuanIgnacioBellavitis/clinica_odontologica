@@ -9,6 +9,9 @@ public interface IDAO<T> {
 	// Buscar
 	T buscar(Integer id);
 
+	// Buscar
+	T buscarPorString(String string);
+
 	// Eliminar
 	void eliminar(Integer id);
 

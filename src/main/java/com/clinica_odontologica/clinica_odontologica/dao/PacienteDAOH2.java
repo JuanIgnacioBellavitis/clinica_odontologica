@@ -158,4 +158,10 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
 				rs.getString(6), rs.getString(7));
 	}
 
+	@Override
+	public Paciente buscarPorString(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
