@@ -5,7 +5,7 @@ import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 
 import java.util.List;
 
-public class PacienteService {
+public class PacienteService implements ISERVICE<Paciente>{
     private IDAO<Paciente> pacienteDAO;
 
     public PacienteService(IDAO<Paciente> pacienteDAO) {
@@ -13,28 +13,33 @@ public class PacienteService {
     }
 
     // GUARDAR PACIENTE
-    public Paciente guardarPaciente(Paciente paciente) {
+    public Paciente guardar(Paciente paciente) {
         return pacienteDAO.guardar(paciente);
     }
 
     // LISTADO TODOS LOS PACIENTES
-    public List<Paciente> buscarPacientes(){
+    public List<Paciente> buscarTodos(){
         return pacienteDAO.buscarTodos();
     }
 
     // BUSCAR PACIENTE POR ID
-    public Paciente buscarPacientePorId(Integer id){
+    public Paciente buscar(Integer id){
         return pacienteDAO.buscar(id);
     }
 
+    @Override
+    public Paciente buscarPorNombre(String parametro) {
+        return pacienteDAO.buscarPorString(parametro);
+    }
+
     // ELIMINAR PACIENTE
-    public List<Paciente> eliminarPaciente(Integer id){
+    public List<Paciente> eliminar(Integer id){
          pacienteDAO.eliminar(id);
          return pacienteDAO.buscarTodos();
     }
 
     // MODIFICAR PACIENTE
-    public Paciente modificarPaciente(Paciente paciente){
+    public Paciente modificar(Paciente paciente){
         return  pacienteDAO.modificar(paciente);
     }
 }

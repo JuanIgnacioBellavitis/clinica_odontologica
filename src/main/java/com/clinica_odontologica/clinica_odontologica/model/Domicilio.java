@@ -10,14 +10,14 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 public class Domicilio {
-    private int id;
-    private String calle;
-    private int numero;
-    private String localidad;
-    private String provincia;
+	private int id;
+	private String calle;
+	private int numero;
+	private String localidad;
+	private String provincia;
 
-    public Domicilio(String calle, int numero, String localidad, String provincia) {
-        this.id = id;
-        this.calle = calle;
-    }
+	public Domicilio(String calle, int numero, String localidad, String provincia) {
+		this.id = id;
+		this.calle = calle;
+	}
 }

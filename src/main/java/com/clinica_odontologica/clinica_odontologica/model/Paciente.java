@@ -1,8 +1,12 @@
 package com.clinica_odontologica.clinica_odontologica.model;
 
-import lombok.*;
-
 import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -10,20 +14,21 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Paciente {
-    private int id;
-    private String nombre;
-    private String apellido;
-    private int numeroContacto;
-    private LocalDate fechaIngreso;
-    private String domicilio;
-    private String email;
+	private int id;
+	private String nombre;
+	private String apellido;
+	private int numeroContacto;
+	private LocalDate fechaIngreso;
+	private String domicilio;
+	private String email;
 
-    public Paciente(String nombre, String apellido, int numeroContacto, String domicilio, String email, LocalDate fechaIngreso) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.numeroContacto = numeroContacto;
-        this.domicilio = domicilio;
-        this.fechaIngreso = fechaIngreso;
-        this.email = email;
-    }
+	public Paciente(String nombre, String apellido, int numeroContacto, String domicilio, String email,
+			LocalDate fechaIngreso) {
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.numeroContacto = numeroContacto;
+		this.domicilio = domicilio;
+		this.fechaIngreso = fechaIngreso;
+		this.email = email;
+	}
 }

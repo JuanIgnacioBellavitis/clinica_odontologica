@@ -1,6 +1,7 @@
 package com.clinica_odontologica.clinica_odontologica.dao;
 
 import com.clinica_odontologica.clinica_odontologica.model.Domicilio;
+import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
 
 import java.sql.*;
@@ -26,8 +27,8 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
     private static final String SQL_DELETE =
             "DELETE FROM PACIENTES WHERE ID=?";
 
-    private static final String SQL_SELECT_NAME =
-            "SELECT * FROM PACIENTES WHERE NOMBRE = ?";
+    private static final String SQL_SELECT_NOMBRE =
+            "SELECT * FROM PACIENTES WHERE NOMBRE =?";
 
 
     @Override
@@ -72,11 +73,11 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
         return null;
     }
 
-    @Override
-    public Paciente buscar(Integer id) {
-        Connection connection = null;
-        Paciente paciente = null;
-        Domicilio domicilio = null;
+	@Override
+	public Paciente buscar(Integer id) {
+		Connection connection = null;
+		Paciente paciente = null;
+		Domicilio domicilio = null;
 
         try {
             connection = BD.getConnection();
@@ -85,15 +86,15 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
             ResultSet resultSet = ps_select_one.executeQuery();
             DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
 
-            while(resultSet.next()){
-                domicilio = domicilioDAOH2.buscar(resultSet.getInt(6));
-                paciente = new Paciente(resultSet.getInt(1),resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getInt(4), resultSet.getDate(5).toLocalDate(),
-                        resultSet.getString(domicilio.getId()), resultSet.getString(7));
-            }
-        } catch (Exception e){
-            System.out.println("ERROR AL BUSCAR PACIENTE: "+e.getMessage());
-        }
+			while (resultSet.next()) {
+				domicilio = domicilioDAOH2.buscar(resultSet.getInt(6));
+				paciente = new Paciente(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getInt(4), resultSet.getDate(5).toLocalDate(), resultSet.getString(domicilio.getId()),
+						resultSet.getString(7));
+			}
+		} catch (Exception e) {
+			System.out.println("ERROR AL BUSCAR PACIENTE: " + e.getMessage());
+		}
 
         return paciente;
     }
@@ -116,6 +117,33 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
         }
 
         return listarPacientes;
+    }
+
+    @Override
+    public Paciente buscarPorString(String nombre) {
+        Connection connection = null;
+        Paciente paciente = null;
+        Domicilio domicilio = null;
+
+        try {
+            connection = BD.getConnection();
+            Statement statement = connection.createStatement();
+            PreparedStatement ps_select_nombre = connection.prepareStatement(SQL_SELECT_NOMBRE);
+            ps_select_nombre.setString(1, nombre);
+            ResultSet resultSet = ps_select_nombre.executeQuery();
+            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+
+            while (resultSet.next()) {
+                domicilio = domicilioDAOH2.buscar(resultSet.getInt(6));
+                paciente = new Paciente(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+                        resultSet.getInt(4), resultSet.getDate(5).toLocalDate(), resultSet.getString(domicilio.getId()),
+                        resultSet.getString(7));
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR AL BUSCAR PACIENTE POR NOMBRE: " + e.getMessage());
+        }
+
+        return paciente;
     }
 
     @Override
@@ -163,15 +191,8 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
         return null;
     }
 
-    private Paciente mapearPaciente(ResultSet rs) throws SQLException {
-        return new Paciente(
-                rs.getInt(1),
-                rs.getString(2),
-                rs.getString(3),
-                rs.getInt(4),
-                rs.getDate(5).toLocalDate(),
-                rs.getString(6),
-                rs.getString(7)
-        );
-    }
+	private Paciente mapearPaciente(ResultSet rs) throws SQLException {
+		return new Paciente(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDate(5).toLocalDate(),
+				rs.getString(6), rs.getString(7));
+	}
 }
