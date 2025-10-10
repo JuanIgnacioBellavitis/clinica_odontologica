@@ -16,7 +16,7 @@ public class DomicilioDAOH2 implements IDAO<Domicilio> {
     }
 
     @Override
-    public Domicilio bucar(Integer id) {
+    public Domicilio buscar(Integer id) {
         Connection conn = null;
         Domicilio domicilio = null;
         try{

@@ -26,7 +26,7 @@ public class ClinicaOdontologicaApplication {
         List<Paciente> listadoPacientes = null;
 
         Paciente paciente = new Paciente("Bart", "Simpson", 11223344,
-                "1", "bart@disney.com", LocalDate.of(2025, 10, 9));
+                "1", "bartdisney.com", LocalDate.of(2025, 10, 9));
 
         pacienteGuardado = pacienteService.guardarPaciente(paciente);
         pacienteEncontrado = pacienteService.buscarPacientePorId(2);

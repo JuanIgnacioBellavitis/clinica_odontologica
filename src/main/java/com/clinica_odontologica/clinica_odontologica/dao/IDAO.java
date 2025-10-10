@@ -7,7 +7,7 @@ public interface IDAO<T> {
     T guardar(T t);
 
     // Buscar
-    T bucar(Integer id);
+    T buscar(Integer id);
     List<T> buscarTodos();
 
     // Eliminar

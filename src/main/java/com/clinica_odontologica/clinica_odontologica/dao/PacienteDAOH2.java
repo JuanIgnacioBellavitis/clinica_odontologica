@@ -69,7 +69,7 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
     }
 
     @Override
-    public Paciente bucar(Integer id) {
+    public Paciente buscar(Integer id) {
         Connection connection = null;
         Paciente paciente = null;
         Domicilio domicilio = null;
@@ -82,7 +82,7 @@ public class PacienteDAOH2 implements IDAO<Paciente> {
             DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
 
             while(resultSet.next()){
-                domicilio = domicilioDAOH2.bucar(resultSet.getInt(6));
+                domicilio = domicilioDAOH2.buscar(resultSet.getInt(6));
                 paciente = new Paciente(resultSet.getInt(1),resultSet.getString(2),
                         resultSet.getString(3), resultSet.getInt(4), resultSet.getDate(5).toLocalDate(),
                         resultSet.getString(domicilio.getId()), resultSet.getString(7));
