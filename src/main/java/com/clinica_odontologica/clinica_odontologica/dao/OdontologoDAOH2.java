@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class OdontologoDAOH2 implements IDAO<Odontologo> {
 	private IDAO<Odontologo> odontologoDAO;
 	private static final String SQL_INSERT = "INSERT INTO ODONTOLOGOS (NOMBRE, APELLIDO, MATRICULA) VALUES (?, ?, ?)";
