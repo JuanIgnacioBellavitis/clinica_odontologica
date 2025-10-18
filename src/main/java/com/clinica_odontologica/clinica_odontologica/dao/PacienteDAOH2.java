@@ -3,11 +3,13 @@ package com.clinica_odontologica.clinica_odontologica.dao;
 import com.clinica_odontologica.clinica_odontologica.model.Domicilio;
 import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class PacienteDAOH2 implements IDAO<Paciente> {
     private IDAO<Paciente> pacienteDAO;
     private IDAO<Domicilio> domicilioDAO;

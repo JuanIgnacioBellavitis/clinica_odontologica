@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.clinica_odontologica.clinica_odontologica.dao.IDAO;
 import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OdontologoService implements ISERVICE<Odontologo> {
 
 	private IDAO<Odontologo> odontologoDAO;

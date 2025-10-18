@@ -2,12 +2,16 @@ package com.clinica_odontologica.clinica_odontologica.service;
 
 import com.clinica_odontologica.clinica_odontologica.dao.IDAO;
 import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PacienteService implements ISERVICE<Paciente>{
     private IDAO<Paciente> pacienteDAO;
 
+    @Autowired
     public PacienteService(IDAO<Paciente> pacienteDAO) {
         this.pacienteDAO = pacienteDAO;
     }
