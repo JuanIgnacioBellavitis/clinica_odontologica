@@ -3,6 +3,7 @@ package com.clinica_odontologica.clinica_odontologica;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.clinica_odontologica.clinica_odontologica.model.Domicilio;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -30,7 +31,10 @@ public class ClinicaOdontologicaApplication {
         Paciente pacienteEncontradoPorNombre = null;
 		List<Paciente> listadoPacientes = null;
 
-		Paciente paciente = new Paciente("Bart", "Simpson", 11223344, "1", "bart@disney.com",
+        Domicilio domicilio = new Domicilio();
+        domicilio.setId(1);
+
+		Paciente paciente = new Paciente("Bart", "Simpson", 11223344, domicilio, "bart@disney.com",
 				LocalDate.of(2025, 10, 9));
 
 		pacienteGuardado = pacienteService.guardar(paciente);

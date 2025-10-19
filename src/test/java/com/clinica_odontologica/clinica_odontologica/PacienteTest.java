@@ -1,6 +1,7 @@
 package com.clinica_odontologica.clinica_odontologica;
 
 import com.clinica_odontologica.clinica_odontologica.dao.OdontologoDAOH2;
+import com.clinica_odontologica.clinica_odontologica.model.Domicilio;
 import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
 import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
 import org.junit.jupiter.api.Assertions;
@@ -77,8 +78,10 @@ public class PacienteTest {
         BD.crearTablas();
         PacienteService pacienteService = new PacienteService(new PacienteDAOH2());
 
+        Domicilio domicilio = new Domicilio("calle falsa", 123, "Springfield", "USA");
+
         Paciente nuevo = new Paciente("Lisa", "Simpson", 11223344,
-                "1", "lisa@disney.com", LocalDate.of(2025, 10, 9));
+                domicilio, "lisa@disney.com", LocalDate.of(2025, 10, 9));
 
         // Act
         Paciente guardado = pacienteService.guardar(nuevo);
