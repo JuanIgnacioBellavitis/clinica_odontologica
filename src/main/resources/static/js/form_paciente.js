@@ -6,15 +6,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const toastSuccess = new bootstrap.Toast(document.getElementById("toastSuccess"));
     const toastError = new bootstrap.Toast(document.getElementById("toastError"));
 
-    console.log("ID: ", id);
     if (id) {
         titulo.textContent = "Modificar Paciente";
         fetch(`/paciente/${id}`)
             .then(res => res.json())
             .then(p => {
-                Object.keys(p).forEach(k => {
-                    if (document.getElementById(k)) document.getElementById(k).value = p[k];
-                });
+                // Campos simples
+                document.getElementById("nombre").value = p.nombre;
+                document.getElementById("apellido").value = p.apellido;
+                document.getElementById("numeroContacto").value = p.numeroContacto;
+                document.getElementById("fechaIngreso").value = p.fechaIngreso;
+                document.getElementById("email").value = p.email;
+
+                // Campos de domicilio
+                if (p.domicilio) {
+                    console.log("domicilio", p.domicilio)
+                    document.getElementById("domicilio_id").value = p.domicilio.id || "";
+                    document.getElementById("calle").value = p.domicilio.calle || "";
+                    document.getElementById("numero").value = p.domicilio.numero || "";
+                    document.getElementById("localidad").value = p.domicilio.localidad || "";
+                    document.getElementById("provincia").value = p.domicilio.provincia || "";
+                }
             })
             .catch(() => toastError.show());
     } else {
@@ -34,9 +46,21 @@ document.addEventListener("DOMContentLoaded", () => {
             apellido: apellido.value.trim(),
             numeroContacto: parseInt(numeroContacto.value),
             fechaIngreso: fechaIngreso.value,
-            domicilio: domicilio.value.trim(),
-            email: email.value.trim()
+            email: email.value.trim(),
+            domicilio: {
+                calle: calle.value.trim(),
+                numero: parseInt(numero.value),
+                localidad: localidad.value.trim(),
+                provincia: provincia.value.trim()
+            }
         };
+
+        if (id) {
+            const domicilioId = document.getElementById("domicilio_id").value;
+            if (domicilioId) {
+                paciente.domicilio.id = parseInt(domicilioId);
+            }
+        }
 
         const method = id ? "PUT" : "POST";
         const endpoint = id ? `/paciente/modificar/${id}` : "/paciente/crear";

@@ -1,14 +1,12 @@
 package com.clinica_odontologica.clinica_odontologica.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Domicilio {
 	private int id;
 	private String calle;
@@ -17,7 +15,9 @@ public class Domicilio {
 	private String provincia;
 
 	public Domicilio(String calle, int numero, String localidad, String provincia) {
-		this.id = id;
 		this.calle = calle;
+        this.numero = numero;
+        this.localidad = localidad;
+        this.provincia = provincia;
 	}
 }

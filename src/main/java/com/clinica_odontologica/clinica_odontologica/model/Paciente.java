@@ -19,10 +19,10 @@ public class Paciente {
 	private String apellido;
 	private int numeroContacto;
 	private LocalDate fechaIngreso;
-	private String domicilio;
+	private Domicilio domicilio;
 	private String email;
 
-	public Paciente(String nombre, String apellido, int numeroContacto, String domicilio, String email,
+	public Paciente(String nombre, String apellido, int numeroContacto, Domicilio domicilio, String email,
 			LocalDate fechaIngreso) {
 		this.nombre = nombre;
 		this.apellido = apellido;

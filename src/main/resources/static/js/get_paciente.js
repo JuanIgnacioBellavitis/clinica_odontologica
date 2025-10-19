@@ -24,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${p.apellido}</td>
           <td>${p.numeroContacto}</td>
           <td>${p.fechaIngreso}</td>
-          <td>${p.domicilio}</td>
+          <td>${
+                p.domicilio
+                    ? `${p.domicilio.calle} ${p.domicilio.numero}, ${p.domicilio.localidad}`
+                    : "-"
+            }</td>
           <td>${p.email}</td>
           <td>
             <button class="btn btn-primary btn-sm me-1" onclick="editarPaciente(${p.id})">✏️</button>
@@ -42,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (res.ok) {
                     document.getElementById(`pac-${id}`).remove();
                     toastSuccess.show();
-                    setTimeout(() => (window.location.href = "pacienteLista.html"), 500);
+                    setTimeout(() => (window.location.href = "pacienteLista.html"), 1500);
                 } else throw new Error();
             })
             .catch(() => toastError.show());
