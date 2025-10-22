@@ -1,14 +1,12 @@
 package com.clinica_odontologica.clinica_odontologica.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Odontologo {
 	private int id;
 	private String nombre;
@@ -19,7 +17,6 @@ public class Odontologo {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.matricula = Matricula;
-
 	}
 
 }
