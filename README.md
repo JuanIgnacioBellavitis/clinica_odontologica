@@ -209,6 +209,14 @@ El proyecto sigue una arquitectura en capas:
 - **Dependency Injection**: A través de constructores
 - **Interface Segregation**: Interfaces genéricas `IDAO<T>` e `ISERVICE<T>`
 
+## Video Ejemplo
+
+    
+
+https://github.com/user-attachments/assets/498d8d20-bf2e-490c-8215-950ca95142f1
+
+
+
 ## 👥 Autores
 
 Juan Ignacio Bellavitis
