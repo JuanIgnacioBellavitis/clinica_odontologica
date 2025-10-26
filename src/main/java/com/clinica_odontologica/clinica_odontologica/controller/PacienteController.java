@@ -38,14 +38,19 @@ public class PacienteController {
         return ResponseEntity.ok(service.guardarPaciente(pacienteDTO));
     }
 
-
-    @DeleteMapping("/eliminar")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?>  eliminarPaciente(@RequestBody PacienteDTO pacienteDTO) {
-        return ResponseEntity.ok(service.eliminarPaciente(pacienteDTO));
+        String mensaje = service.eliminarPaciente(pacienteDTO);
+        return ResponseEntity.ok(mensaje);
     }
 
     @PutMapping("/modificar/{id}")
     public ResponseEntity<?> modificarPaciente(@PathVariable Long id, @RequestBody PacienteDTO paciente) {
-        return ResponseEntity.ok(service.editarPaciente(paciente));
+        return ResponseEntity.ok(service.editarPaciente(id, paciente));
+    }
+
+    @GetMapping("/buscar-email")
+    public PacienteDTO buscarPacienteEmail(@RequestBody String email) {
+        return service.buscarPacientePorEmail(email);
     }
 }

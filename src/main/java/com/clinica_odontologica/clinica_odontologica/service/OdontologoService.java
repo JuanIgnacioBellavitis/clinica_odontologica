@@ -1,22 +1,18 @@
 package com.clinica_odontologica.clinica_odontologica.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.clinica_odontologica.clinica_odontologica.dto.OdontologoDTO;
-import com.clinica_odontologica.clinica_odontologica.dto.TurnoDTO;
 import com.clinica_odontologica.clinica_odontologica.entity.Odontologo;
-import com.clinica_odontologica.clinica_odontologica.entity.Paciente;
-import com.clinica_odontologica.clinica_odontologica.entity.Turno;
 import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
 import com.clinica_odontologica.clinica_odontologica.repository.OdontologoRepository;
-import com.clinica_odontologica.clinica_odontologica.repository.PacienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OdontologoService {
+public class OdontologoService implements IOdontologoService{
 
     @Autowired
 	private OdontologoRepository  odontologoRepository;
@@ -27,7 +23,15 @@ public class OdontologoService {
         this.mapper = mapper;
     }
 
-    public OdontologoDTO guardar(OdontologoDTO odontologoDTO) {
+    @Override
+    public List<OdontologoDTO> listarOdontologos() {
+        return odontologoRepository.findAll()
+                .stream()
+                .map(this::odontologoAOdontologoDTO)
+                .collect(Collectors.toList());
+    }
+
+    public OdontologoDTO guardarOdontologo(OdontologoDTO odontologoDTO) {
         Odontologo odontologo = odontologoDTOAOdontologo(odontologoDTO);
 
         Odontologo odontologoGuardado = odontologoRepository.save(odontologo);
@@ -43,8 +47,38 @@ public class OdontologoService {
 		return mapper.convertValue(odontologo, OdontologoDTO.class);
 	}
 
-	public List<Odontologo> buscarTodos() {
-		return odontologoRepository.findAll();
+	@Override
+	public OdontologoDTO buscarOdontologoPorNombre(String nombre) {
+
+        Odontologo odontologo = odontologoRepository.findByNombre(nombre).orElseThrow(
+                () -> new NotFoundException("No se encontró odontologo con el nombre " + nombre));
+
+		return odontologoAOdontologoDTO(odontologo);
+	}
+
+	@Override
+    public String eliminarOdontologo(Long id) {
+        Odontologo odontologo = odontologoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        "No se encontró el odontologo con ID " + id));
+
+        odontologoRepository.delete(odontologo);
+        return "El odontologo " + odontologo.getNombre() + " ha sido eliminado correctamente.";
+	}
+
+	@Override
+	public OdontologoDTO editarOdontologos(Long id, OdontologoDTO odontologoDTO) {
+        Odontologo odontologoExistente = odontologoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        "No se encontró el odontologo con ID " + odontologoDTO.getId()));
+
+        odontologoExistente.setNombre(odontologoDTO.getNombre());
+        odontologoExistente.setApellido(odontologoDTO.getApellido());
+        odontologoExistente.setMatricula(odontologoDTO.getMatricula());
+
+        Odontologo odontologoActualizado = odontologoRepository.save(odontologoExistente);
+
+        return odontologoAOdontologoDTO(odontologoActualizado);
 	}
 
     private OdontologoDTO odontologoAOdontologoDTO(Odontologo odontologo) {
@@ -54,25 +88,4 @@ public class OdontologoService {
     private Odontologo odontologoDTOAOdontologo(OdontologoDTO odontologoDTO) {
         return mapper.convertValue(odontologoDTO, Odontologo.class);
     }
-    /*
-
-	@Override
-	public Odontologo buscarPorNombre(String parametro) {
-		return odontologoDAO.buscarPorString(parametro);
-	}
-	@Override
-	public List<Odontologo> eliminar(Integer id) {
-		odontologoDAO.eliminar(id);
-		List<Odontologo> odontologoRestantes = odontologoDAO.buscarTodos();
-
-		return odontologoRestantes;
-
-	}
-
-	@Override
-	public Odontologo modificar(Odontologo odontologo) {
-		return odontologoDAO.modificar(odontologo);
-
-	}
-*/
 }

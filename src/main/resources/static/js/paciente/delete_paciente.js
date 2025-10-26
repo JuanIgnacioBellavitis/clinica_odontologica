@@ -1,14 +1,16 @@
-function eliminarPaciente(id) {
-    if (!confirm("¿Seguro que desea eliminar este paciente?")) return;
+export function eliminarPaciente(paciente, pacientesGlobal, toastSuccess, toastError) {
+    if (!confirm("¿Eliminar este paciente?")) return;
 
-    fetch(`/paciente/eliminar/${id}`, { method: 'DELETE' })
+    fetch(`/paciente/eliminar/${paciente.id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(paciente)
+    })
         .then(res => {
             if (res.ok) {
-                document.getElementById(`tr_${id}`).remove();
-                mostrarToast("Éxito", "Paciente eliminado correctamente.", "success");
-            } else {
-                mostrarToast("Error", "No se pudo eliminar el paciente.", "error");
-            }
+                document.getElementById(`pac-${paciente.id}`).remove();
+                toastSuccess.show();
+            } else throw new Error();
         })
-        .catch(() => mostrarToast("Error", "Error al conectar con el servidor.", "error"));
+        .catch(() => toastError.show());
 }

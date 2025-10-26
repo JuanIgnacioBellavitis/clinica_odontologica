@@ -1,3 +1,5 @@
+import { eliminarPaciente } from './delete_paciente.js';
+
 document.addEventListener("DOMContentLoaded", () => {
     const toastSuccess = new bootstrap.Toast(document.getElementById("toastSuccess"));
     const toastError = new bootstrap.Toast(document.getElementById("toastError"));
@@ -7,52 +9,52 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "datosPacientes.html";
     });
 
-    // Cargar lista
+    let pacientesGlobal = [];
+
+    // Cargar lista de pacientes
     fetch("/paciente")
         .then(res => res.json())
-        .then(data => renderPacientes(data))
+        .then(data => {
+            pacientesGlobal = data;
+            renderPacientes(data);
+        })
         .catch(() => toastError.show());
 
     function renderPacientes(pacientes) {
         const tbody = document.getElementById("pacienteTableBody");
         tbody.innerHTML = "";
+
         pacientes.forEach(p => {
-            tbody.innerHTML += `
-            <tr id="pac-${p.id}">
-          <td>${p.id}</td>
-          <td>${p.nombre}</td>
-          <td>${p.apellido}</td>
-          <td>${p.numeroContacto}</td>
-          <td>${p.fechaIngreso}</td>
-          <td>${
-                p.domicilio
-                    ? `${p.domicilio.calle} ${p.domicilio.numero}, ${p.domicilio.localidad}`
-                    : "-"
-            }</td>
-          <td>${p.email}</td>
-          <td>
-            <button class="btn btn-primary btn-sm me-1" onclick="editarPaciente(${p.id})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="eliminarPaciente(${p.id})">🗑️</button>
-          </td>
-        </tr>`;
+            const tr = document.createElement("tr");
+            tr.id = `pac-${p.id}`;
+            tr.innerHTML = `
+                <td>${p.id}</td>
+                <td>${p.nombre}</td>
+                <td>${p.apellido}</td>
+                <td>${p.numeroContacto}</td>
+                <td>${p.fechaIngreso}</td>
+                <td>${p.domicilio ? `${p.domicilio.calle} ${p.domicilio.numero}, ${p.domicilio.localidad}` : "-"}</td>
+                <td>${p.email}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm me-1">✏️</button>
+                    <button class="btn btn-danger btn-sm">🗑️</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            // Editar
+            tr.querySelector(".btn-primary").addEventListener("click", () => {
+                editarPaciente(p.id);
+            });
+
+            // Eliminar
+            tr.querySelector(".btn-danger").addEventListener("click", () => {
+                eliminarPaciente(p, pacientesGlobal, toastSuccess, toastError);
+            });
         });
     }
 
-    // Eliminar
-    window.eliminarPaciente = (id) => {
-        if (!confirm("¿Eliminar este paciente?")) return;
-        fetch(`/paciente/eliminar/${id}`, { method: "DELETE" })
-            .then(res => {
-                if (res.ok) {
-                    document.getElementById(`pac-${id}`).remove();
-                    toastSuccess.show();
-                    setTimeout(() => (window.location.href = "pacienteLista.html"), 1500);
-                } else throw new Error();
-            })
-            .catch(() => toastError.show());
-    };
-
-    // Modificar
+    // Función para editar paciente
     window.editarPaciente = (id) => {
         window.location.href = `datosPacientes.html?id=${id}`;
     };

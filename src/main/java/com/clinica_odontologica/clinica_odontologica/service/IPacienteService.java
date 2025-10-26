@@ -9,8 +9,7 @@ public interface IPacienteService {
     PacienteDTO guardarPaciente(PacienteDTO pacienteDTO);
     PacienteDTO buscarPacientePorId(Long id);
     List<PacienteDTO> listarPacientes();
-    PacienteDTO editarPaciente(PacienteDTO pacienteDTO);
-    ResponseEntity<?> eliminarPaciente(PacienteDTO pacienteDTO);
+    PacienteDTO editarPaciente(Long id, PacienteDTO pacienteDTO);
+    String eliminarPaciente(PacienteDTO pacienteDTO);
     PacienteDTO buscarPacientePorEmail(String email);
-
 }

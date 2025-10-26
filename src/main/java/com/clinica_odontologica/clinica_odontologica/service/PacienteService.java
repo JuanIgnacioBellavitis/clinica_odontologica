@@ -1,14 +1,12 @@
 package com.clinica_odontologica.clinica_odontologica.service;
 
 import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
-import com.clinica_odontologica.clinica_odontologica.dto.TurnoDTO;
 import com.clinica_odontologica.clinica_odontologica.entity.Paciente;
-import com.clinica_odontologica.clinica_odontologica.entity.Turno;
+import com.clinica_odontologica.clinica_odontologica.exceptions.BadRequestException;
 import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
 import com.clinica_odontologica.clinica_odontologica.repository.PacienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +26,14 @@ public class PacienteService implements IPacienteService {
     }
 
     public PacienteDTO guardarPaciente(PacienteDTO pacienteDTO){
-        Paciente paciente = PacienteDTOAPaciente(pacienteDTO);
+        Optional<Paciente> existente = pacienteRepository.findByEmail(pacienteDTO.getEmail());
 
+        if (existente.isPresent()) {
+            throw new BadRequestException(
+                    "Ya existe un paciente registrado con el email " + pacienteDTO.getEmail());
+        }
+
+        Paciente paciente = pacienteDTOAPaciente(pacienteDTO);
         Paciente pacienteGuardado = pacienteRepository.save(paciente);
 
         return pacienteAPacienteDTO(pacienteGuardado);
@@ -40,7 +44,7 @@ public class PacienteService implements IPacienteService {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("No se encontró el paciente con el ID " + id));
 
-        return mapper.convertValue(paciente, PacienteDTO.class);
+        return pacienteAPacienteDTO(paciente);
     }
 
     @Override
@@ -52,18 +56,41 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteDTO editarPaciente(PacienteDTO pacienteDTO) {
-        return null;
+    public PacienteDTO editarPaciente(Long id, PacienteDTO pacienteDTO) {
+        Paciente pacienteExistente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        "No se encontró el paciente con ID " + pacienteDTO.getId()));
+
+        pacienteExistente.setNombre(pacienteDTO.getNombre());
+        pacienteExistente.setApellido(pacienteDTO.getApellido());
+        pacienteExistente.setNumeroContacto(pacienteDTO.getNumeroContacto());
+        pacienteExistente.setFechaIngreso(pacienteDTO.getFechaIngreso());
+        pacienteExistente.setEmail(pacienteDTO.getEmail());
+        pacienteExistente.setDomicilio(pacienteDTO.getDomicilio());
+
+        Paciente pacienteActualizado = pacienteRepository.save(pacienteExistente);
+
+        return pacienteAPacienteDTO(pacienteActualizado);
     }
 
+
     @Override
-    public ResponseEntity<?> eliminarPaciente(PacienteDTO pacienteDTO) {
-        return null;
+    public String eliminarPaciente(PacienteDTO pacienteDTO) {
+        Paciente paciente = pacienteRepository.findById(pacienteDTO.getId())
+                .orElseThrow(() -> new NotFoundException(
+                        "No se encontró el paciente con ID " + pacienteDTO.getId()));
+
+        pacienteRepository.delete(paciente);
+        return "El paciente " + paciente.getNombre() + " ha sido eliminado correctamente.";
     }
+
 
     @Override
     public PacienteDTO buscarPacientePorEmail(String email) {
-        return null;
+        Paciente paciente = pacienteRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("No se encontro el paciente con el email " + email));
+
+        return pacienteAPacienteDTO(paciente);
     }
 
 
@@ -71,7 +98,7 @@ public class PacienteService implements IPacienteService {
         return mapper.convertValue(paciente, PacienteDTO.class);
     }
 
-    private Paciente PacienteDTOAPaciente(PacienteDTO pacienteDTO) {
+    private Paciente pacienteDTOAPaciente(PacienteDTO pacienteDTO) {
         return mapper.convertValue(pacienteDTO, Paciente.class);
     }
 }
