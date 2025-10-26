@@ -1,5 +1,6 @@
-package com.clinica_odontologica.clinica_odontologica.model;
+package com.clinica_odontologica.clinica_odontologica.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -7,11 +8,22 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "odontologos")
 public class Odontologo {
-	private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+    @Column
 	private String nombre;
+
+    @Column
 	private String apellido;
-	private Integer matricula;
+
+    @Column(unique = true, nullable = false)
+    private Integer matricula;
 
 	public Odontologo(String nombre, String apellido, Integer Matricula) {
 		this.nombre = nombre;

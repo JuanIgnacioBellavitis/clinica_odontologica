@@ -1,76 +1,51 @@
 package com.clinica_odontologica.clinica_odontologica.controller;
 
-import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
+import com.clinica_odontologica.clinica_odontologica.service.IPacienteService;
 import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController {
-    private PacienteService service;
 
     @Autowired
+    private IPacienteService service;
+
     public PacienteController(PacienteService pacienteService) {
         this.service = pacienteService;
     }
 
-    @RequestMapping("")
-    public List<Paciente> buscarTodos() {
-        return service.buscarTodos();
+    @GetMapping("")
+    public List<PacienteDTO> buscarTodos() {
+        return service.listarPacientes();
     }
 
-    @RequestMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
-        Paciente encontrado = service.buscar(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
 
-        if (encontrado == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el paciente con ID " + id);
-        }
+        PacienteDTO pacienteDTO = service.buscarPacientePorId(id);
 
-        return ResponseEntity.ok(encontrado);
+        return ResponseEntity.ok(pacienteDTO);
     }
 
-    @RequestMapping("/crear")
-    public ResponseEntity<?> crearPaciente(@RequestBody Paciente paciente) {
-        return ResponseEntity.ok(service.guardar(paciente));
+    @PostMapping("/crear")
+    public ResponseEntity<?> crearPaciente(@RequestBody PacienteDTO pacienteDTO) {
+        return ResponseEntity.ok(service.guardarPaciente(pacienteDTO));
     }
 
-    @RequestMapping("/eliminar/{id}")
-    public ResponseEntity<?>  eliminarPaciente(@PathVariable Integer id) {
-        Paciente encontrado = service.buscar(id);
 
-        if (encontrado == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el paciente con ID " + id);
-        }
-
-        return ResponseEntity.ok(service.eliminar(id));
+    @DeleteMapping("/eliminar")
+    public ResponseEntity<?>  eliminarPaciente(@RequestBody PacienteDTO pacienteDTO) {
+        return ResponseEntity.ok(service.eliminarPaciente(pacienteDTO));
     }
 
-    @RequestMapping("/modificar/{id}")
-    public ResponseEntity<?> modificarPaciente(@PathVariable Integer id, @RequestBody Paciente paciente) {
-        Paciente encontrado = service.buscar(id);
-
-        if (encontrado == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el paciente con ID " + id);
-        }
-
-        paciente.setId(id);
-        Paciente modificado = service.modificar(paciente);
-
-        return ResponseEntity.ok(modificado);
+    @PutMapping("/modificar/{id}")
+    public ResponseEntity<?> modificarPaciente(@PathVariable Long id, @RequestBody PacienteDTO paciente) {
+        return ResponseEntity.ok(service.editarPaciente(paciente));
     }
 }

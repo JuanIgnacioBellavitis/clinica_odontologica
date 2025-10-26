@@ -1,18 +1,15 @@
 package com.clinica_odontologica.clinica_odontologica.controller;
 
-import com.clinica_odontologica.clinica_odontologica.model.Odontologo;
-import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import com.clinica_odontologica.clinica_odontologica.dto.OdontologoDTO;
+import com.clinica_odontologica.clinica_odontologica.entity.Odontologo;
 import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
-import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/odontologo")
@@ -30,23 +27,16 @@ public class OdontologoController {
     }
 
     @RequestMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
-        Odontologo encontrado = service.buscar(id);
-
-        if (encontrado == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró el odontologo con ID " + id);
-        }
-
-        return ResponseEntity.ok(encontrado);
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarOdontologoPorId(id));
     }
 
-    @RequestMapping("/crear")
-    public ResponseEntity<?> crearOdontologo(@RequestBody Odontologo odontologo) {
-        return ResponseEntity.ok(service.guardar(odontologo));
+    @PostMapping("/crear")
+    public ResponseEntity<?> crearOdontologo(@RequestBody OdontologoDTO odontologoDTO) {
+        return ResponseEntity.ok(service.guardar(odontologoDTO));
     }
 
+    /*
     @RequestMapping("/eliminar/{id}")
     public ResponseEntity<?>  eliminarOdontologo(@PathVariable Integer id) {
         Odontologo encontrado = service.buscar(id);
@@ -74,5 +64,5 @@ public class OdontologoController {
         Odontologo modificado = service.modificar(odontologo);
 
         return ResponseEntity.ok(modificado);
-    }
+    }*/
 }

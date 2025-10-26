@@ -1,49 +1,77 @@
 package com.clinica_odontologica.clinica_odontologica.service;
 
-import com.clinica_odontologica.clinica_odontologica.dao.IDAO;
-import com.clinica_odontologica.clinica_odontologica.model.Paciente;
+import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
+import com.clinica_odontologica.clinica_odontologica.dto.TurnoDTO;
+import com.clinica_odontologica.clinica_odontologica.entity.Paciente;
+import com.clinica_odontologica.clinica_odontologica.entity.Turno;
+import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
+import com.clinica_odontologica.clinica_odontologica.repository.PacienteRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class PacienteService implements ISERVICE<Paciente>{
-    private IDAO<Paciente> pacienteDAO;
+public class PacienteService implements IPacienteService {
+
+    private final PacienteRepository pacienteRepository;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public PacienteService(IDAO<Paciente> pacienteDAO) {
-        this.pacienteDAO = pacienteDAO;
+    public PacienteService(PacienteRepository pacienteRepository, ObjectMapper objectMapper) {
+        this.pacienteRepository = pacienteRepository;
+        this.mapper = objectMapper;
     }
 
-    // GUARDAR PACIENTE
-    public Paciente guardar(Paciente paciente) {
-        return pacienteDAO.guardar(paciente);
-    }
+    public PacienteDTO guardarPaciente(PacienteDTO pacienteDTO){
+        Paciente paciente = PacienteDTOAPaciente(pacienteDTO);
 
-    // LISTADO TODOS LOS PACIENTES
-    public List<Paciente> buscarTodos(){
-        return pacienteDAO.buscarTodos();
-    }
+        Paciente pacienteGuardado = pacienteRepository.save(paciente);
 
-    // BUSCAR PACIENTE POR ID
-    public Paciente buscar(Integer id){
-        return pacienteDAO.buscar(id);
+        return pacienteAPacienteDTO(pacienteGuardado);
     }
 
     @Override
-    public Paciente buscarPorNombre(String parametro) {
-        return pacienteDAO.buscarPorString(parametro);
+    public PacienteDTO buscarPacientePorId(Long id) {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("No se encontró el paciente con el ID " + id));
+
+        return mapper.convertValue(paciente, PacienteDTO.class);
     }
 
-    // ELIMINAR PACIENTE
-    public List<Paciente> eliminar(Integer id){
-         pacienteDAO.eliminar(id);
-         return pacienteDAO.buscarTodos();
+    @Override
+    public List<PacienteDTO> listarPacientes() {
+        return pacienteRepository.findAll()
+                .stream()
+                .map(this::pacienteAPacienteDTO)
+                .collect(Collectors.toList());
     }
 
-    // MODIFICAR PACIENTE
-    public Paciente modificar(Paciente paciente){
-        return  pacienteDAO.modificar(paciente);
+    @Override
+    public PacienteDTO editarPaciente(PacienteDTO pacienteDTO) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> eliminarPaciente(PacienteDTO pacienteDTO) {
+        return null;
+    }
+
+    @Override
+    public PacienteDTO buscarPacientePorEmail(String email) {
+        return null;
+    }
+
+
+    private PacienteDTO pacienteAPacienteDTO(Paciente paciente) {
+        return mapper.convertValue(paciente, PacienteDTO.class);
+    }
+
+    private Paciente PacienteDTOAPaciente(PacienteDTO pacienteDTO) {
+        return mapper.convertValue(pacienteDTO, Paciente.class);
     }
 }
