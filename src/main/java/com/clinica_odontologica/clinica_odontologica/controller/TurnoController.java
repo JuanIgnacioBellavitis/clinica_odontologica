@@ -6,11 +6,13 @@ import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 import com.clinica_odontologica.clinica_odontologica.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,5 +32,10 @@ public class TurnoController {
     @PostMapping("/crear")
     public ResponseEntity<TurnoDTO> registrarTurno(@RequestBody TurnoDTO turnoDTO) {
         return ResponseEntity.ok(turnoService.guardarTurno(turnoDTO));
+    }
+    
+    @GetMapping("/todos")
+    public List<TurnoDTO> obtenerTodos() {
+        return turnoService.listarTurnos();
     }
 }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sacar Turno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h2 {
+            font-weight: 700;
+            color: #343a40;
+        }
+
+        .card-form {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #6c63ff;
+            box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+        }
+
+        #btnGuardar {
+            background: linear-gradient(90deg, #4e54c8, #8f94fb);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        #btnGuardar:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            border-radius: 50px;
+        }
+
+        .toast {
+            border-radius: 12px;
+        }
+
+        .needs-validation .form-label {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card-form mx-auto" style="max-width: 700px;">
+        <h2 class="mb-4 text-center">Sacar Turno</h2>
+
+        <form id="formTurno" class="needs-validation" novalidate>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Paciente</label>
+                    <select id="pacienteSelect" class="form-select" required></select>
+                    <div class="invalid-feedback">Seleccione un paciente.</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Odontólogo</label>
+                    <select id="odontologoSelect" class="form-select" required></select>
+                    <div class="invalid-feedback">Seleccione un odontólogo.</div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" id="fecha" class="form-control" required>
+                    <div class="invalid-feedback">Seleccione una fecha.</div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-center gap-3">
+                <button id="btnGuardar" class="btn btn-lg" type="submit">Guardar Turno</button>
+                <a href="turnoLista.html" class="btn btn-secondary btn-lg">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Toasts -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastSuccess" class="toast text-bg-success" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">✅ Turno guardado correctamente.</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+
+        <div id="toastError" class="toast text-bg-danger" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">❌ Error al guardar el turno.</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/turno/form_turno.js"></script>
+</body>
+</html>

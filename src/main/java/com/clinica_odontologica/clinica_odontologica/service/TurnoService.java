@@ -12,7 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TurnoService implements ITurnoService {
@@ -50,6 +52,12 @@ public class TurnoService implements ITurnoService {
         return turnoATurnoDTO(turnoGuardado);
     }
 
+    public List<TurnoDTO> listarTurnos() {
+        return turnoRepository.findAll()
+                .stream()
+                .map(this::turnoATurnoDTO)
+                .collect(Collectors.toList());
+    }
     @Override
     public TurnoDTO buscarTurnoPorId(Long id) {
         return null;
