@@ -73,17 +73,15 @@ public class PacienteService implements IPacienteService {
         return pacienteAPacienteDTO(pacienteActualizado);
     }
 
-
     @Override
-    public String eliminarPaciente(PacienteDTO pacienteDTO) {
-        Paciente paciente = pacienteRepository.findById(pacienteDTO.getId())
+    public String eliminarPaciente(Long id) {
+        Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
-                        "No se encontró el paciente con ID " + pacienteDTO.getId()));
+                        "No se encontró el paciente con ID " + id));
 
         pacienteRepository.delete(paciente);
         return "El paciente " + paciente.getNombre() + " ha sido eliminado correctamente.";
     }
-
 
     @Override
     public PacienteDTO buscarPacientePorEmail(String email) {
@@ -92,7 +90,6 @@ public class PacienteService implements IPacienteService {
 
         return pacienteAPacienteDTO(paciente);
     }
-
 
     private PacienteDTO pacienteAPacienteDTO(Paciente paciente) {
         return mapper.convertValue(paciente, PacienteDTO.class);

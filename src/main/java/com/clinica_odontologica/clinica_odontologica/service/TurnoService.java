@@ -58,6 +58,7 @@ public class TurnoService implements ITurnoService {
                 .map(this::turnoATurnoDTO)
                 .collect(Collectors.toList());
     }
+
     @Override
     public TurnoDTO buscarTurnoPorId(Long id) {
         return null;

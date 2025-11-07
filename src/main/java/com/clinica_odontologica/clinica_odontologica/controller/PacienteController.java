@@ -39,8 +39,8 @@ public class PacienteController {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?>  eliminarPaciente(@RequestBody PacienteDTO pacienteDTO) {
-        String mensaje = service.eliminarPaciente(pacienteDTO);
+    public ResponseEntity<?> eliminarPaciente(@PathVariable Long id) {
+        String mensaje = service.eliminarPaciente(id);
         return ResponseEntity.ok(mensaje);
     }
 
