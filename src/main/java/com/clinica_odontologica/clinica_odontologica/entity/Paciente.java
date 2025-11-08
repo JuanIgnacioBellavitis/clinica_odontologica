@@ -1,7 +1,10 @@
 package com.clinica_odontologica.clinica_odontologica.entity;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +43,10 @@ public class Paciente {
 
     @Column(unique = true)
 	private String email;
+
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Turno> turnos = new HashSet<Turno>();
 
 	public Paciente(String nombre, String apellido, int numeroContacto, Domicilio domicilio, String email,
 			LocalDate fechaIngreso) {

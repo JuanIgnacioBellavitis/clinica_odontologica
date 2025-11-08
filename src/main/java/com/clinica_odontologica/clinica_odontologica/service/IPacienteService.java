@@ -10,6 +10,6 @@ public interface IPacienteService {
     PacienteDTO buscarPacientePorId(Long id);
     List<PacienteDTO> listarPacientes();
     PacienteDTO editarPaciente(Long id, PacienteDTO pacienteDTO);
-    String eliminarPaciente(PacienteDTO pacienteDTO);
+    String eliminarPaciente(Long id);
     PacienteDTO buscarPacientePorEmail(String email);
 }
