@@ -1,24 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Inicio - Sistema de Odontología</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body>
-    <div>
-        <div id="navbar-container"></div>
+<body class="bg-light">
+
+<!-- Navbar -->
+<div id="navbar-container"></div>
+
+<!-- Contenido principal -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-primary">Bienvenido al Sistema de Gestión Odontológica</h1>
+        <p class="lead text-secondary">Administra pacientes, odontólogos y turnos de manera sencilla y rápida.</p>
     </div>
 
-    <script>
-        // Cargar Navbar
-        fetch('fragments/navbar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('navbar-container').innerHTML = html;
-            })
-            .catch(err => console.error('Error cargando navbar:', err));
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- Cards de resumen -->
+    <div class="row g-4 mb-5" id="resumen-container">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <i class="bi bi-people-fill text-primary fs-1"></i>
+                    <h5 class="card-title mt-3">Pacientes</h5>
+                    <p class="card-text text-muted">Consulta, agrega o modifica pacientes.</p>
+                    <a href="pacienteLista.html" class="btn btn-outline-primary">Ver pacientes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <i class="bi bi-person-badge-fill text-success fs-1"></i>
+                    <h5 class="card-title mt-3">Odontólogos</h5>
+                    <p class="card-text text-muted">Gestiona tu equipo profesional.</p>
+                    <a href="odontologoLista.html" class="btn btn-outline-success">Ver odontólogos</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <i class="bi bi-calendar-check-fill text-warning fs-1"></i>
+                    <h5 class="card-title mt-3">Turnos</h5>
+                    <p class="card-text text-muted">Visualiza y organiza los turnos de los pacientes.</p>
+                    <a href="turnoLista.html" class="btn btn-outline-warning">Ver turnos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-muted mt-5">
+        <small>© 2025 Clínica Odontológica - Todos los derechos reservados</small>
+    </footer>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbarLoader.js"></script>
+
+<script>
+    // Cargar Navbar dinámicamente
+    fetch('fragments/navbar.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('navbar-container').innerHTML = html)
+        .catch(err => console.error('Error cargando navbar:', err));
+</script>
+
 </body>
 </html>

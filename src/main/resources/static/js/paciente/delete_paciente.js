@@ -1,4 +1,4 @@
-export function eliminarPaciente(paciente, pacientesGlobal, toastSuccess, toastError) {
+export function eliminarPaciente(paciente, toastSuccess, toastError) {
     if (!confirm("¿Eliminar este paciente?")) return;
 
     fetch(`/paciente/eliminar/${paciente.id}`, {
