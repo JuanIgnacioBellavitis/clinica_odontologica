@@ -22,7 +22,8 @@ public class DatosIniciales implements ApplicationRunner {
         String pass = "admin";
         String passCod = codificador.encode(pass);
         Usuario usuario =
-                new Usuario("Juan", "admin", "juancito", passCod, "juan@mail.com", UsuarioRol.ROLE_USER);
+                new Usuario("Juan", "admin", "juancito", passCod, "juan@mail.com",
+                        UsuarioRol.ROLE_ADMIN);
 
         System.out.println(usuario.getPassword());
         System.out.println(usuario.getUsername());
