@@ -1,56 +1,64 @@
 package com.clinica_odontologica.clinica_odontologica.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
 import com.clinica_odontologica.clinica_odontologica.service.IPacienteService;
 import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController {
 
-    @Autowired
-    private IPacienteService service;
+	@Autowired
+	private IPacienteService service;
 
-    public PacienteController(PacienteService pacienteService) {
-        this.service = pacienteService;
-    }
+	public PacienteController(PacienteService pacienteService) {
+		this.service = pacienteService;
+	}
 
-    @GetMapping("")
-    public List<PacienteDTO> buscarTodos() {
-        return service.listarPacientes();
-    }
+	@GetMapping("")
+	public List<PacienteDTO> buscarTodos() {
+		return service.listarPacientes();
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
 
-        PacienteDTO pacienteDTO = service.buscarPacientePorId(id);
+		PacienteDTO pacienteDTO = service.buscarPacientePorId(id);
 
-        return ResponseEntity.ok(pacienteDTO);
-    }
+		return ResponseEntity.ok(pacienteDTO);
+	}
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> crearPaciente(@RequestBody PacienteDTO pacienteDTO) {
-        return ResponseEntity.ok(service.guardarPaciente(pacienteDTO));
-    }
+	@PostMapping("/crear")
+	public ResponseEntity<?> crearPaciente(@RequestBody PacienteDTO pacienteDTO) {
+		return ResponseEntity.ok(service.guardarPaciente(pacienteDTO));
+	}
 
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?>  eliminarPaciente(@RequestBody PacienteDTO pacienteDTO) {
-        String mensaje = service.eliminarPaciente(pacienteDTO);
-        return ResponseEntity.ok(mensaje);
-    }
+	@DeleteMapping("/eliminar/{id}")
+	public ResponseEntity<?> eliminarPaciente(@RequestBody PacienteDTO pacienteDTO) {
+		String mensaje = service.eliminarPaciente(pacienteDTO);
+		return ResponseEntity.ok(mensaje);
+	}
 
-    @PutMapping("/modificar/{id}")
-    public ResponseEntity<?> modificarPaciente(@PathVariable Long id, @RequestBody PacienteDTO paciente) {
-        return ResponseEntity.ok(service.editarPaciente(id, paciente));
-    }
+	@PutMapping("/modificar/{id}")
+	public ResponseEntity<?> modificarPaciente(@PathVariable Long id, @RequestBody PacienteDTO paciente) {
+		return ResponseEntity.ok(service.editarPaciente(id, paciente));
+	}
 
-    @GetMapping("/buscar-email")
-    public PacienteDTO buscarPacienteEmail(@RequestBody String email) {
-        return service.buscarPacientePorEmail(email);
-    }
+	@GetMapping("/buscar-email")
+	public PacienteDTO buscarPacienteEmail(@RequestBody String email) {
+		return service.buscarPacientePorEmail(email);
+	}
 }

@@ -1,12 +1,13 @@
 package com.clinica_odontologica.clinica_odontologica.repository;
 
-import com.clinica_odontologica.clinica_odontologica.entity.Paciente;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.clinica_odontologica.clinica_odontologica.entity.Paciente;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
-    Optional<Paciente> findByEmail(String email);
+	Optional<Paciente> findByEmail(String email);
 }
