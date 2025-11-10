@@ -75,19 +75,18 @@ public class PacienteService implements IPacienteService {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         "No se encontró el paciente con ID " + id));
+        pacienteRepository.delete(paciente);
+		return "El paciente " + id + " ha sido eliminado correctamente.";
+    }
 
 	@Override
 	public PacienteDTO buscarPacientePorEmail(String email) {
 		Paciente paciente = pacienteRepository.findByEmail(email)
 				.orElseThrow(() -> new NotFoundException("No se encontro el paciente con el email " + email));
+		return mapper.convertValue(paciente, PacienteDTO.class);
+	}
 
-    @Override
-    public PacienteDTO buscarPacientePorEmail(String email) {
-        Paciente paciente = pacienteRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("No se encontro el paciente con el email " + email));
-
-        return pacienteAPacienteDTO(paciente);
-    }
+  
 
     private PacienteDTO pacienteAPacienteDTO(Paciente paciente) {
         return mapper.convertValue(paciente, PacienteDTO.class);
