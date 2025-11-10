@@ -37,13 +37,28 @@ public class WebConfigSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Desactivado para esta aplicacion
-                .authorizeHttpRequests((auth)
-                        -> auth.requestMatchers("/pacienteLista.html").hasRole("ADMIN")
+                .authorizeHttpRequests((auth)-> auth
+                        .requestMatchers("/pacienteLista.html").permitAll()
                         .requestMatchers("/odontologoLista.html").permitAll()
-                        .requestMatchers("/turnoLista.html").hasRole("ADMIN")
+                        .requestMatchers("/turnoLista.html").permitAll()
+                        .requestMatchers("/auth/register", "/login.html", "/css/**", "/js/**",
+                                "/register.html").permitAll()
+                        .requestMatchers("/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults()).logout(Customizer.withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login.html")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/index.html", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login.html?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                );
 
         return http.build();
     }

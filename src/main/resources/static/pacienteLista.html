@@ -11,16 +11,15 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<div id="navbar-container"></div>
 <div class="container">
-
-    <div id="navbar-container"></div>
 
     <div class="container my-5">
         <div class="text-center mb-4">
             <h1 class="fw-bold text-primary">Gestión de Pacientes</h1>
         </div>
 
-        <div class="btn-crear-paciente">
+        <div class="btn-crear-paciente solo-admin">
             <button class="btn btn-success" id="btnCrear">Crear Paciente</button>
         </div>
 
@@ -68,19 +67,10 @@
 </div>
 
 <!-- Scripts -->
+<script src="js/navbarLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module"  src="/js/paciente/get_paciente.js"></script>
 <script src="/js/paciente/delete_paciente.js"></script>
-<script>
-    // Cargar Navbar
-    fetch('fragments/navbar.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('navbar-container').innerHTML = html;
-        })
-        .catch(err => console.error('Error cargando navbar:', err));
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
