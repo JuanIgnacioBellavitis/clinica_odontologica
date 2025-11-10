@@ -88,6 +88,14 @@
 
 	<script src="/js/Turno/form_turno.js"></script>
 	<script src="/js/Turno/delete_turno.js"></script>
+	<script> 
+		    // Mostrar toast de éxito si viene de formulario
+		    const params = new URLSearchParams(window.location.search);
+		    if (params.get("creado") === "true") {
+		        toastSuccess.show();
+		    }
+		});
+	</script>
 
 
 <!--	<script src="/js/Turno/delete_turno.js"></script>-->
@@ -152,12 +160,7 @@
 <!--                .catch(() => toastError.show());-->
 <!--        });-->
 <!--    </script>-->
-    // Mostrar toast de éxito si viene de formulario
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("creado") === "true") {
-        toastSuccess.show();
-    }
-});
+
 </script>
     <script src="js/navbarLoader.js"></script>
 </body>
