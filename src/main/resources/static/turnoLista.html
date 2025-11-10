@@ -152,5 +152,13 @@
 <!--                .catch(() => toastError.show());-->
 <!--        });-->
 <!--    </script>-->
+    // Mostrar toast de éxito si viene de formulario
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("creado") === "true") {
+        toastSuccess.show();
+    }
+});
+</script>
+    <script src="js/navbarLoader.js"></script>
 </body>
 </html>

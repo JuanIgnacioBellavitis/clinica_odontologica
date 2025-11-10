@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${p.domicilio ? `${p.domicilio.calle} ${p.domicilio.numero}, ${p.domicilio.localidad}` : "-"}</td>
                 <td>${p.email}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm me-1">✏️</button>
-                    <button class="btn btn-danger btn-sm">🗑️</button>
+                    <button class="btn btn-primary btn-sm me-1 solo-admin">✏️</button>
+                    <button class="btn btn-danger btn-sm solo-admin">🗑️</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -49,8 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Eliminar
             tr.querySelector(".btn-danger").addEventListener("click", () => {
-                eliminarPaciente(p, pacientesGlobal, toastSuccess, toastError);
+                eliminarPaciente(p, toastSuccess, toastError);
             });
+
+            const rol = sessionStorage.getItem("rol");
+            if (rol !== "ROLE_ADMIN") {
+                document.querySelectorAll('.solo-admin').forEach(el => el.style.display = 'none');
+            }
         });
     }
 
