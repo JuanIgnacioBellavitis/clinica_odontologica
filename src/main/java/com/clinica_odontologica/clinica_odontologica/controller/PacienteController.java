@@ -46,11 +46,11 @@ public class PacienteController {
 		return ResponseEntity.ok(service.guardarPaciente(pacienteDTO));
 	}
 
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminarPaciente(@PathVariable Long id) {
-        String mensaje = service.eliminarPaciente(id);
-        return ResponseEntity.ok(mensaje);
-    }
+	@DeleteMapping("/eliminar/{id}")
+	public ResponseEntity<?> eliminarPaciente(@PathVariable Long id) {
+		String mensaje = service.eliminarPaciente(id);
+		return ResponseEntity.ok(mensaje);
+	}
 
 	@PutMapping("/modificar/{id}")
 	public ResponseEntity<?> modificarPaciente(@PathVariable Long id, @RequestBody PacienteDTO paciente) {
