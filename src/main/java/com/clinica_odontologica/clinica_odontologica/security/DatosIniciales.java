@@ -25,12 +25,6 @@ public class DatosIniciales implements ApplicationRunner {
                 new Usuario("Juan", "Bellavitis", "juancito", passCod, "juan@mail.com",
                         UsuarioRol.ROLE_ADMIN);
 
-        System.out.println(usuario.getPassword());
-        System.out.println(usuario.getUsername());
-        System.out.println(usuario.getEmail());
-        System.out.println(usuario.getNombre());
-        System.out.println(usuario.getUsuarioRol());
-
         usuarioRepository.save(usuario);
         System.out.println("Pass sin codificar: " + pass + " - Codificador: " + passCod);
     }
