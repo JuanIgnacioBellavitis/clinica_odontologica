@@ -11,6 +11,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,6 +39,10 @@ public class Odontologo {
 
 	@Column(unique = true, nullable = false)
 	private Integer matricula;
+
+    @OneToMany(mappedBy = "odontologo", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Turno> turnos = new HashSet<Turno>();
 
 	public Odontologo(String nombre, String apellido, Integer Matricula) {
 		this.nombre = nombre;
