@@ -74,95 +74,40 @@
             </div>
         </div>
     </div>
-	<script>
-	    // Cargar Navbar
-	    fetch('fragments/navbar.html')
-	        .then(res => res.text())
-	        .then(html => {
-	            document.getElementById('navbar-container').innerHTML = html;
-	        })
-	        .catch(err => console.error('Error cargando navbar:', err));
-	</script>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que desea eliminar este turno?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmDelete" class="btn btn-danger">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/navbarLoader.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Scripts separados -->
-	<script src="/js/Turno/get_turno.js"></script>
+	<script type="module" src="/js/Turno/get_turno.js"></script>
 
 	<script src="/js/Turno/form_turno.js"></script>
 	<script src="/js/Turno/delete_turno.js"></script>
-	<script> 
-		    // Mostrar toast de éxito si viene de formulario
-		    const params = new URLSearchParams(window.location.search);
-		    if (params.get("creado") === "true") {
-		        toastSuccess.show();
-		    }
-		});
+	<script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("creado") === "true") {
+            toastSuccess.show();
+        }
 	</script>
-
-
-<!--	<script src="/js/Turno/delete_turno.js"></script>-->
-<!--    <script>-->
-<!--        // Cargar navbar-->
-<!--        fetch('fragments/navbar.html')-->
-<!--            .then(res => res.text())-->
-<!--            .then(html => document.getElementById('navbar-container').innerHTML = html)-->
-<!--            .catch(err => console.error('Error cargando navbar:', err));-->
-
-<!--        document.addEventListener("DOMContentLoaded", () => {-->
-<!--            const turnoTableBody = document.getElementById("turnoTableBody");-->
-<!--            const btnCrearTurno = document.getElementById("btnCrearTurno");-->
-<!--            const toastError = new bootstrap.Toast(document.getElementById("toastError"));-->
-<!--            const toastSuccess = new bootstrap.Toast(document.getElementById("toastSuccess"));-->
-
-<!--            // Crear nuevo turno-->
-<!--            btnCrearTurno.addEventListener("click", () => {-->
-<!--                window.location.href = "datosTurno.html";-->
-<!--            });-->
-
-<!--            // Cargar todos los turnos-->
-<!--            fetch("/turno/todos")-->
-<!--                .then(res => res.json())-->
-<!--                .then(turnos => {-->
-<!--                    turnoTableBody.innerHTML = "";-->
-<!--                    turnos.forEach(turno => {-->
-<!--                        const row = document.createElement("tr");-->
-<!--                        row.id = `turno-${turno.id}`;-->
-<!--                        row.innerHTML = `-->
-<!--                            <td>${turno.id}</td>-->
-<!--                            <td>${turno.paciente?.nombre || ''} ${turno.paciente?.apellido || ''}</td>-->
-<!--                            <td>${turno.odontologo?.nombre || ''} ${turno.odontologo?.apellido || ''}</td>-->
-<!--                            <td>${turno.fecha}</td>-->
-        
-<!--                            <td>-->
-<!--                                <button class="btn btn-primary btn-sm me-1">✏️</button>-->
-<!--                                <button class="btn btn-danger btn-sm">🗑️</button>-->
-<!--                            </td>-->
-<!--                        `;-->
-<!--                        turnoTableBody.appendChild(row);-->
-
-<!--                        // Editar turno-->
-<!--                        row.querySelector(".btn-primary").addEventListener("click", () => {-->
-<!--                            window.location.href = `datosTurno.html?id=${turno.id}`;-->
-<!--                        });-->
-
-<!--                        // Eliminar turno-->
-<!--                        row.querySelector(".btn-danger").addEventListener("click", () => {-->
-<!--                            if (confirm(`¿Seguro que deseas eliminar el turno #${turno.id}?`)) {-->
-<!--                                fetch(`/turno/eliminar/${turno.id}`, { method: "DELETE" })-->
-<!--                                    .then(res => {-->
-<!--                                        if (!res.ok) throw new Error();-->
-<!--                                        row.remove();-->
-<!--                                        toastSuccess.show();-->
-<!--                                    })-->
-<!--                                    .catch(() => toastError.show());-->
-<!--                            }-->
-<!--                        });-->
-<!--                    });-->
-<!--                })-->
-<!--                .catch(() => toastError.show());-->
-<!--        });-->
-<!--    </script>-->
-
 </script>
     <script src="js/navbarLoader.js"></script>
 </body>

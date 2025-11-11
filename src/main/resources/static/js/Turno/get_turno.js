@@ -1,11 +1,12 @@
+import { eliminarTurno } from "./delete_turno.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const turnoTableBody = document.getElementById("turnoTableBody");
-    const btnCrearTurno = document.getElementById("btnCrearTurno");
     const toastError = new bootstrap.Toast(document.getElementById("toastError"));
     const toastSuccess = new bootstrap.Toast(document.getElementById("toastSuccess"));
 
     // Redirigir a formulario para crear turno
-    btnCrearTurno.addEventListener("click", () => {
+    document.getElementById("btnCrearTurno").addEventListener("click", () => {
         window.location.href = "datosTurno.html";
     });
 
@@ -37,15 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 👉 Eliminar turno
                 row.querySelector(".btn-danger").addEventListener("click", () => {
-                    if (confirm(`¿Seguro que deseas eliminar el turno #${turno.id}?`)) {
-                        fetch(`/turno/eliminar/${turno.id}`, { method: "DELETE" })
-                            .then(res => {
-                                if (!res.ok) throw new Error();
-                                row.remove();
-                                toastSuccess.show();
-                            })
-                            .catch(() => toastError.show());
-                    }
+                    eliminarTurno(turno, toastSuccess, toastError);
                 });
             });
         })
