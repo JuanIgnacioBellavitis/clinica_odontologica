@@ -1,18 +1,16 @@
-export function eliminarOdontologo(odontolgo, toastSuccess, toastError) {
+export function eliminarOdontologo(odontologo, toastSuccess, toastError) {
     if (!confirm("¿Seguro que desea eliminar este odontologo?")) return;
 
-    fetch(`/odontologo/eliminar/${odontolgo.id}`, {
+    fetch(`/odontologo/eliminar/${odontologo.id}`, {
         method: 'DELETE',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(odontolgo)
+        body: JSON.stringify(odontologo)
     })
         .then(res => {
             if (res.ok) {
-                document.getElementById(`pac-${id}`).remove();
-                toastSuccess("Éxito", "Odontologo eliminado correctamente.", "success");
-            } else {
-                toastError("Error", "No se pudo eliminar el odontologo.", "error");
-            }
+                document.getElementById(`odo-${odontologo.id}`).remove();
+                toastSuccess.show();
+            } else throw new Error();
         })
-        .catch(() => toastError("Error", "Error al conectar con el servidor.", "error"));
+        .catch(() =>  toastError.show());
 }
