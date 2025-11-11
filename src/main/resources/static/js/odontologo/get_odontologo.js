@@ -25,8 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         tbody.innerHTML = "";
 
         odontologos.forEach(o => {
-            tbody.innerHTML += `
-              <tr id="pac-${o.id}">
+            const tr = document.createElement("tr");
+            tr.id = `odo-${o.id}`
+            tr.innerHTML += `
+              <tr id="odo-${o.id}">
               <td>${o.id}</td>
               <td>${o.nombre}</td>
               <td>${o.apellido}</td>
@@ -37,8 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 </td>
             </tr>`;
 
+            tbody.appendChild(tr)
+
+            // Editar
+            tr.querySelector(".btn-primary").addEventListener("click", () => {
+                editarOdontologo(o.id);
+            });
+
             // Eliminar
-            tbody.querySelector(".btn-danger").addEventListener("click", () => {
+            tr.querySelector(".btn-danger").addEventListener("click", () => {
                 eliminarOdontologo(o, toastSuccess, toastError);
             });
 

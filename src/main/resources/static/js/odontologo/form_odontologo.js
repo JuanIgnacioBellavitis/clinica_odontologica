@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Campos simples
                 document.getElementById("nombre").value = p.nombre;
                 document.getElementById("apellido").value = p.apellido;
-                document.getElementById("matricula").value = p.numeroContacto;
+                document.getElementById("matricula").value = p.matricula;
 
             })
             .catch(() => toastError.show());
