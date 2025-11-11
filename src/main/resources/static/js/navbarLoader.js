@@ -15,13 +15,23 @@ function inicializarNavbar() {
         .then(data => {
             console.log("Usuario autenticado:", data);
             sessionStorage.setItem("rol", data.rol);
-            const span = document.getElementById('usuarioActual');
-            if (span) {
-                span.textContent = `Bienvenido/a ${data.nombre} ${data.apellido}`;
-            }
 
+            // Mostrar nombre completo
+            const span = document.getElementById('usuarioActual');
+            if (span) span.textContent = `${data.nombre} ${data.apellido}`;
+
+            // Ocultar elementos solo para admin
             if (data.rol !== 'ROLE_ADMIN') {
                 document.querySelectorAll('.solo-admin').forEach(el => el.style.display = 'none');
+            }
+
+            // Cerrar sesión
+            const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+            if (btnCerrarSesion) {
+                btnCerrarSesion.addEventListener('click', () => {
+                    fetch('/auth/logout', { method: 'POST', credentials: 'include' })
+                        .finally(() => window.location.href = '/login.html');
+                });
             }
         })
         .catch(() => {
