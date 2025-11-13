@@ -50,5 +50,4 @@ public class Odontologo {
 		this.apellido = apellido;
 		this.matricula = Matricula;
 	}
-
 }
