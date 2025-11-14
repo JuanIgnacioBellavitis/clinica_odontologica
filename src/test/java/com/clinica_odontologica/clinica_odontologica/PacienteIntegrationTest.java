@@ -1,10 +1,8 @@
 package com.clinica_odontologica.clinica_odontologica;
 
-import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
-import com.clinica_odontologica.clinica_odontologica.entity.Domicilio;
-import com.clinica_odontologica.clinica_odontologica.exceptions.BadRequestException;
-import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
-import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.clinica_odontologica.clinica_odontologica.dto.PacienteDTO;
+import com.clinica_odontologica.clinica_odontologica.entity.Domicilio;
+import com.clinica_odontologica.clinica_odontologica.exceptions.BadRequestException;
+import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
+import com.clinica_odontologica.clinica_odontologica.service.PacienteService;
 
 @SpringBootTest
 @Transactional

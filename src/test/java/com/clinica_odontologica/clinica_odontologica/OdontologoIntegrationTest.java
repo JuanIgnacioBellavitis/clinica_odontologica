@@ -1,8 +1,7 @@
 package com.clinica_odontologica.clinica_odontologica;
 
-import com.clinica_odontologica.clinica_odontologica.dto.OdontologoDTO;
-import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
-import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.clinica_odontologica.clinica_odontologica.dto.OdontologoDTO;
+import com.clinica_odontologica.clinica_odontologica.exceptions.NotFoundException;
+import com.clinica_odontologica.clinica_odontologica.service.OdontologoService;
 
 @SpringBootTest
 @Transactional
