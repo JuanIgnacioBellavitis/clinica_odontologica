@@ -1,33 +1,59 @@
 # 🦷 Sistema de Gestión para Clínica Odontológica
 
-Sistema de gestión desarrollado con Spring Boot para administrar pacientes, odontólogos y domicilios de una clínica odontológica.
+Sistema de gestión completo desarrollado con **Spring Boot** para administrar pacientes, odontólogos, turnos y usuarios de una clínica odontológica. Incluye autenticación y autorización mediante Spring Security.
+
+---
 
 ## 📋 Descripción
 
-Este proyecto es una aplicación backend construida con Spring Boot que implementa un sistema CRUD completo para la gestión de una clínica odontológica. Utiliza el patrón DAO (Data Access Object) para la persistencia de datos y una base de datos H2 en memoria para el almacenamiento.
+Este proyecto es una **aplicación web RESTful** construida con Spring Boot que implementa un sistema CRUD completo para la gestión integral de una clínica odontológica. Utiliza **Spring Data JPA** para la persistencia de datos con una base de datos **H2** en memoria, y **Spring Security** para la gestión de usuarios y autenticación.
 
-## ✨ Características
+### Características Principales
 
-- ✅ Gestión completa de **Pacientes** (CRUD)
-- ✅ Gestión completa de **Odontólogos** (CRUD)
-- ✅ Gestión de **Domicilios**
-- ✅ Búsqueda por ID y por nombre
-- ✅ Base de datos H2 en memoria
-- ✅ Patrón DAO para acceso a datos
-- ✅ Uso de interfaces para desacoplamiento
-- ✅ Tests unitarios incluidos
-- ✅ Lombok para reducir código boilerplate
+- ✅ **Gestión completa de Pacientes** (CRUD)
+- ✅ **Gestión completa de Odontólogos** (CRUD)
+- ✅ **Gestión de Turnos** (CRUD) con relaciones entre Pacientes y Odontólogos
+- ✅ **Sistema de autenticación y autorización** con Spring Security
+- ✅ **Roles de usuario** (ROLE_USER, ROLE_ADMIN)
+- ✅ **Registro de usuarios** y login
+- ✅ **API REST** completa
+- ✅ **Interfaz web** con HTML/JavaScript
+- ✅ **Manejo de excepciones** centralizado
+- ✅ **DTOs** para transferencia de datos
+- ✅ **Base de datos H2** con consola habilitada
+- ✅ **Tests unitarios e integración**
 
-## 🛠️ Tecnologías Utilizadas
+---
+
+## 🛠️ Stack Tecnológico
+
+### Dependencias Principales
 
 - **Java 21**
 - **Spring Boot 3.5.6**
-    - Spring Boot Starter Web
-    - Spring Boot DevTools
-    - Spring Boot Starter Test
-- **H2 Database** (base de datos en memoria)
-- **Lombok**
-- **Maven** (gestión de dependencias)
+  - `spring-boot-starter-web`: Framework web y REST APIs
+  - `spring-boot-starter-data-jpa`: Persistencia con JPA/Hibernate
+  - `spring-boot-starter-security`: Autenticación y autorización
+  - `spring-boot-devtools`: Herramientas de desarrollo
+  - `spring-boot-starter-test`: Testing (JUnit, Mockito)
+- **H2 Database**: Base de datos en memoria
+- **Lombok**: Reducción de código boilerplate
+- **Log4j 1.2.12**: Logging
+- **Maven**: Gestión de dependencias
+
+### Configuración de Base de Datos
+
+```properties
+spring.datasource.url=jdbc:h2:~/test
+spring.datasource.username=sa
+spring.datasource.password=sa
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.h2.console.enabled=true
+```
+
+**Acceso a H2 Console**: `http://localhost:8080/h2-console`
+
+---
 
 ## 📁 Estructura del Proyecto
 
@@ -36,40 +62,493 @@ clinica_odontologica/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/clinica_odontologica/clinica_odontologica/
-│   │   │   ├── ClinicaOdontologicaApplication.java  # Clase principal
-│   │   │   ├── dao/                                  # Capa de acceso a datos
-│   │   │   │   ├── BD.java                          # Configuración BD
-│   │   │   │   ├── IDAO.java                        # Interfaz DAO genérica
-│   │   │   │   ├── PacienteDAOH2.java              # DAO Pacientes
-│   │   │   │   ├── OdontologoDAOH2.java            # DAO Odontólogos
-│   │   │   │   └── DomicilioDAOH2.java             # DAO Domicilios
-│   │   │   ├── model/                               # Modelos de datos
-│   │   │   │   ├── Paciente.java
+│   │   │   ├── ClinicaOdontologicaApplication.java
+│   │   │   ├── controller/              # Capa de controladores REST
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── OdontologoController.java
+│   │   │   │   ├── PacienteController.java
+│   │   │   │   └── TurnoController.java
+│   │   │   ├── dto/                     # Data Transfer Objects
+│   │   │   │   ├── ExceptionDTO.java
+│   │   │   │   ├── OdontologoDTO.java
+│   │   │   │   ├── PacienteDTO.java
+│   │   │   │   ├── RegistroDTO.java
+│   │   │   │   └── TurnoDTO.java
+│   │   │   ├── entity/                  # Entidades JPA
+│   │   │   │   ├── Domicilio.java
 │   │   │   │   ├── Odontologo.java
-│   │   │   │   └── Domicilio.java
-│   │   │   └── service/                             # Capa de servicios
-│   │   │       ├── ISERVICE.java                    # Interfaz Service genérica
+│   │   │   │   ├── Paciente.java
+│   │   │   │   ├── Turno.java
+│   │   │   │   ├── Usuario.java
+│   │   │   │   └── UsuarioRol.java (enum)
+│   │   │   ├── exceptions/              # Manejo de excepciones
+│   │   │   │   ├── BadRequestException.java
+│   │   │   │   ├── ExceptionController.java
+│   │   │   │   └── NotFoundException.java
+│   │   │   ├── repository/              # Repositorios Spring Data JPA
+│   │   │   │   ├── OdontologoRepository.java
+│   │   │   │   ├── PacienteRepository.java
+│   │   │   │   ├── TurnoRepository.java
+│   │   │   │   └── UsuarioRepository.java
+│   │   │   ├── security/                # Configuración de seguridad
+│   │   │   │   ├── DatosIniciales.java
+│   │   │   │   ├── PasswordEncoder.java
+│   │   │   │   └── WebConfigSecurity.java
+│   │   │   └── service/                 # Capa de servicios
+│   │   │       ├── IOdontologoService.java
+│   │   │       ├── IPacienteService.java
+│   │   │       ├── ITurnoService.java
+│   │   │       ├── OdontologoService.java
 │   │   │       ├── PacienteService.java
-│   │   │       └── OdontologoService.java
+│   │   │       ├── TurnoService.java
+│   │   │       └── UsuarioService.java
 │   │   └── resources/
-│   │       └── application.properties
+│   │       ├── application.properties
+│   │       ├── static/                  # Archivos estáticos (HTML, CSS, JS)
+│   │       │   ├── css/
+│   │       │   ├── js/
+│   │       │   └── *.html
 │   └── test/
 │       └── java/com/clinica_odontologica/clinica_odontologica/
 │           ├── ClinicaOdontologicaApplicationTests.java
+│           ├── OdontologoTest.java
 │           ├── PacienteTest.java
-│           └── OdontologoTest.java
-├── pom.xml
-└── README.md
+│           ├── TurnoTest.java
+│           └── *IntegrationTest.java
+└── pom.xml
 ```
+
+---
+
+## 🗄️ Modelo de Datos
+
+### Entidades
+
+#### 1. **Paciente**
+- `id` (Long, PK, Auto-increment)
+- `nombre` (String)
+- `apellido` (String)
+- `numeroContacto` (int)
+- `fechaIngreso` (LocalDate)
+- `email` (String, unique)
+- `domicilio` (OneToOne con Domicilio)
+- `turnos` (OneToMany con Turno, LAZY)
+
+#### 2. **Odontologo**
+- `id` (Long, PK, Auto-increment)
+- `nombre` (String)
+- `apellido` (String)
+- `matricula` (Integer, unique, not null)
+- `turnos` (OneToMany con Turno, LAZY)
+
+#### 3. **Turno**
+- `id` (Long, PK, Auto-increment)
+- `fecha` (LocalDate)
+- `paciente` (ManyToOne con Paciente)
+- `odontologo` (ManyToOne con Odontologo)
+
+#### 4. **Domicilio**
+- `id` (Long, PK, Auto-increment)
+- `calle` (String)
+- `numero` (int)
+- `localidad` (String)
+- `provincia` (String)
+
+#### 5. **Usuario**
+Implementa `UserDetails` para Spring Security:
+- `id` (Long, PK, Auto-increment)
+- `nombre` (String)
+- `apellido` (String)
+- `userName` (String)
+- `email` (String, unique, not null) - Usado como username para login
+- `password` (String, codificado con BCrypt)
+- `usuarioRol` (UsuarioRol enum)
+
+#### 6. **UsuarioRol** (Enum)
+- `ROLE_USER`
+- `ROLE_ADMIN`
+
+### Relaciones
+
+```
+Paciente (1) ──── (N) Turno (N) ──── (1) Odontologo
+   │                                       
+   └─── (1) Domicilio
+```
+
+---
+
+## 🔐 Seguridad
+
+### Configuración de Seguridad
+
+El proyecto utiliza **Spring Security** con las siguientes características:
+
+#### **WebConfigSecurity**
+- **Autenticación**: Form-based login con página personalizada (`/login.html`)
+- **Password Encoding**: BCryptPasswordEncoder
+- **UserDetailsService**: `UsuarioService` carga usuarios desde la base de datos
+- **CSRF**: Deshabilitado para facilitar el desarrollo
+
+#### **Rutas Públicas** (sin autenticación):
+- `/auth/register` - Registro de usuarios
+- `/login.html` - Página de login
+- `/register.html` - Página de registro
+- `/pacienteLista.html`, `/odontologoLista.html`, `/turnoLista.html` - Listas públicas
+- `/css/**`, `/js/**` - Recursos estáticos
+
+#### **Rutas Protegidas** (requieren autenticación):
+- `/auth/me` - Información del usuario actual
+- Todas las rutas `/paciente/**`, `/odontologo/**`, `/turno/**` (endpoints REST)
+- Todas las demás rutas
+
+#### **Usuario Administrador por Defecto**
+
+Al iniciar la aplicación, se crea automáticamente un usuario administrador:
+
+```
+Email: juan@mail.com
+Password: admin
+Rol: ROLE_ADMIN
+```
+
+Este usuario se crea mediante `DatosIniciales` que implementa `ApplicationRunner`.
+
+---
+
+## 📡 API REST - Endpoints
+
+### Base URL: `http://localhost:8080`
+
+### 🔓 Autenticación
+
+#### **POST** `/auth/register`
+Registra un nuevo usuario.
+
+**Request Body:**
+```json
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "userName": "juanito",
+  "email": "juan@example.com",
+  "password": "password123"
+}
+```
+
+**Response:** `200 OK`
+```json
+"Usuario registrado con éxito: juan@example.com"
+```
+
+#### **GET** `/auth/me`
+Obtiene información del usuario autenticado.
+
+**Headers:** `Authorization` requerido
+
+**Response:** `200 OK`
+```json
+{
+  "nombre": "Juan",
+  "apellido": "Bellavitis",
+  "email": "juan@mail.com",
+  "rol": "ROLE_ADMIN"
+}
+```
+
+---
+
+### 👤 Pacientes
+
+#### **GET** `/paciente`
+Lista todos los pacientes.
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Homero",
+    "apellido": "Simpson",
+    "numeroContacto": 11223344,
+    "fechaIngreso": "2024-01-15",
+    "domicilio": {
+      "id": 1,
+      "calle": "Siempre Viva",
+      "numero": 723,
+      "localidad": "Springfield",
+      "provincia": "USA"
+    },
+    "email": "homero@mail.com"
+  }
+]
+```
+
+#### **GET** `/paciente/{id}`
+Busca un paciente por ID.
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **POST** `/paciente/crear`
+Crea un nuevo paciente.
+
+**Request Body:**
+```json
+{
+  "nombre": "Bart",
+  "apellido": "Simpson",
+  "numeroContacto": 12345678,
+  "fechaIngreso": "2024-01-20",
+  "email": "bart@mail.com",
+  "domicilio": {
+    "calle": "Siempre Viva",
+    "numero": 723,
+    "localidad": "Springfield",
+    "provincia": "USA"
+  }
+}
+```
+
+**Response:** `200 OK` con el paciente creado o `400 BAD REQUEST` si el email ya existe
+
+#### **PUT** `/paciente/modificar/{id}`
+Modifica un paciente existente.
+
+**Request Body:** Mismo formato que crear
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **DELETE** `/paciente/eliminar/{id}`
+Elimina un paciente.
+
+**Response:** `200 OK` con mensaje de confirmación o `404 NOT FOUND`
+
+#### **GET** `/paciente/buscar-email`
+Busca un paciente por email.
+
+**Request Body:** `"email@example.com"`
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+---
+
+### 🦷 Odontólogos
+
+#### **GET** `/odontologo`
+Lista todos los odontólogos.
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": 1,
+    "nombre": "Luciano",
+    "apellido": "Sicolo",
+    "matricula": 12345
+  }
+]
+```
+
+#### **GET** `/odontologo/{id}`
+Busca un odontólogo por ID.
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **POST** `/odontologo/crear`
+Crea un nuevo odontólogo.
+
+**Request Body:**
+```json
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "matricula": 54321
+}
+```
+
+**Response:** `200 OK` con el odontólogo creado o `400 BAD REQUEST` si la matrícula ya existe
+
+#### **PUT** `/odontologo/modificar/{id}`
+Modifica un odontólogo existente.
+
+**Request Body:** Mismo formato que crear
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **DELETE** `/odontologo/eliminar/{id}`
+Elimina un odontólogo.
+
+**Response:** `200 OK` con mensaje de confirmación o `404 NOT FOUND`
+
+#### **GET** `/odontologo/buscar-nombre`
+Busca un odontólogo por nombre.
+
+**Request Body:** `"Luciano"`
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+---
+
+### 📅 Turnos
+
+#### **GET** `/turno/todos`
+Lista todos los turnos.
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": 1,
+    "fecha": "2024-02-15",
+    "paciente": {
+      "id": 1,
+      "nombre": "Homero",
+      "apellido": "Simpson",
+      ...
+    },
+    "odontologo": {
+      "id": 1,
+      "nombre": "Luciano",
+      "apellido": "Sicolo",
+      ...
+    }
+  }
+]
+```
+
+#### **GET** `/turno/{id}`
+Busca un turno por ID.
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **POST** `/turno/crear`
+Crea un nuevo turno. **Valida** que el paciente y odontólogo existan.
+
+**Request Body:**
+```json
+{
+  "fecha": "2024-02-15",
+  "paciente": {
+    "id": 1
+  },
+  "odontologo": {
+    "id": 1
+  }
+}
+```
+
+**Response:** `200 OK` con el turno creado o `404 NOT FOUND` si paciente/odontólogo no existe
+
+#### **PUT** `/turno/modificar/{id}`
+Modifica un turno existente.
+
+**Request Body:** Mismo formato que crear
+
+**Response:** `200 OK` o `404 NOT FOUND`
+
+#### **DELETE** `/turno/eliminar/{id}`
+Elimina un turno.
+
+**Response:** `200 OK` con mensaje de confirmación, `404 NOT FOUND` o `500 INTERNAL SERVER ERROR`
+
+---
+
+## 🔧 Capa de Servicios
+
+### **OdontologoService**
+Implementa `IOdontologoService`. Utiliza `ObjectMapper` para convertir entre Entidad y DTO.
+
+**Métodos:**
+- `listarOdontologos()`: Lista todos los odontólogos
+- `guardarOdontologo(OdontologoDTO)`: Crea un nuevo odontólogo
+- `buscarOdontologoPorId(Long)`: Busca por ID, lanza `NotFoundException` si no existe
+- `buscarOdontologoPorNombre(String)`: Busca por nombre, lanza `NotFoundException` si no existe
+- `editarOdontologos(Long, OdontologoDTO)`: Actualiza un odontólogo existente
+- `eliminarOdontologo(Long)`: Elimina un odontólogo
+
+### **PacienteService**
+Implementa `IPacienteService`. Valida email único antes de crear.
+
+**Métodos:**
+- `listarPacientes()`: Lista todos los pacientes
+- `guardarPaciente(PacienteDTO)`: Crea un nuevo paciente, lanza `BadRequestException` si el email existe
+- `buscarPacientePorId(Long)`: Busca por ID
+- `buscarPacientePorEmail(String)`: Busca por email
+- `editarPaciente(Long, PacienteDTO)`: Actualiza un paciente
+- `eliminarPaciente(Long)`: Elimina un paciente
+
+### **TurnoService**
+Implementa `ITurnoService`. Valida existencia de paciente y odontólogo antes de crear/editar.
+
+**Métodos:**
+- `listarTurnos()`: Lista todos los turnos (método adicional, no en interfaz)
+- `guardarTurno(TurnoDTO)`: Crea un nuevo turno validando paciente y odontólogo
+- `buscarTurnoPorId(Long)`: Busca por ID
+- `editarTurno(Long, TurnoDTO)`: Actualiza un turno validando relaciones
+- `eliminarTurnoPorId(Long)`: Elimina un turno
+
+### **UsuarioService**
+Implementa `UserDetailsService` de Spring Security para autenticación.
+
+**Métodos:**
+- `loadUserByUsername(String email)`: Carga usuario por email para autenticación
+- `registrarNuevoUsuario(...)`: Registra un nuevo usuario con password codificado, rol `ROLE_USER` por defecto
+
+---
+
+## 🗃️ Repositorios (Spring Data JPA)
+
+Todos los repositorios extienden `JpaRepository<Entity, Long>`:
+
+### **OdontologoRepository**
+- `findByNombre(String)`: Busca odontólogo por nombre (Optional)
+
+### **PacienteRepository**
+- `findByEmail(String)`: Busca paciente por email (Optional)
+
+### **TurnoRepository**
+- Métodos CRUD estándar heredados de JpaRepository
+
+### **UsuarioRepository**
+- `findByEmail(String)`: Busca usuario por email (Optional)
+
+---
+
+## ⚠️ Manejo de Excepciones
+
+### Excepciones Personalizadas
+
+#### **NotFoundException**
+Lanzada cuando no se encuentra un recurso.
+- **HTTP Status**: `404 NOT FOUND`
+- **Mensaje**: Descriptivo del recurso no encontrado
+
+#### **BadRequestException**
+Lanzada para solicitudes inválidas (ej: email duplicado).
+- **HTTP Status**: `400 BAD REQUEST`
+- **Mensaje**: Descripción del error
+
+### **ExceptionController** (@ControllerAdvice)
+
+Maneja globalmente las excepciones y retorna `ExceptionDTO`:
+
+```json
+{
+  "message": "No se encontró el paciente con el ID 999"
+}
+```
+
+---
 
 ## 🚀 Instalación y Ejecución
 
 ### Prerequisitos
 
-- Java 21 o superior
-- Maven 3.6+
+- **Java 21** o superior
+- **Maven 3.6+** (incluido `mvnw` wrapper)
+- Navegador web moderno
 
-### Pasos para ejecutar
+### Pasos para Ejecutar
 
 1. **Clonar el repositorio**
    ```bash
@@ -81,145 +560,285 @@ clinica_odontologica/
    ```bash
    mvn clean install
    ```
+   
+   O usando el wrapper:
+   ```bash
+   ./mvnw clean install
+   ```
 
 3. **Ejecutar la aplicación**
    ```bash
    mvn spring-boot:run
    ```
-
-   O usando el wrapper de Maven:
+   
+   O usando el wrapper:
    ```bash
    ./mvnw spring-boot:run
    ```
 
-4. La aplicación iniciará en `http://localhost:8080`
+4. **Acceder a la aplicación**
+   - **API Base**: `http://localhost:8080`
+   - **Login**: `http://localhost:8080/login.html`
+   - **Registro**: `http://localhost:8080/register.html`
+   - **H2 Console**: `http://localhost:8080/h2-console`
+     - JDBC URL: `jdbc:h2:~/test`
+     - Username: `sa`
+     - Password: `sa`
 
-## 💾 Base de Datos
+5. **Credenciales de Acceso Iniciales**
+   - **Email**: `juan@mail.com`
+   - **Password**: `admin`
+   - **Rol**: `ROLE_ADMIN`
 
-El proyecto utiliza **H2 Database** en memoria con las siguientes tablas:
-
-### Tabla PACIENTES
-- `ID` (PK, Auto-increment)
-- `NOMBRE` (VARCHAR)
-- `APELLIDO` (VARCHAR)
-- `NUMEROCONTACTO` (INT)
-- `FECHAINGRESO` (DATE)
-- `DOMICILIO_ID` (FK)
-- `EMAIL` (VARCHAR)
-
-### Tabla ODONTOLOGOS
-- `ID` (PK, Auto-increment)
-- `NOMBRE` (VARCHAR)
-- `APELLIDO` (VARCHAR)
-- `MATRICULA` (INT)
-
-### Tabla DOMICILIOS
-- `ID` (PK, Auto-increment)
-- `CALLE` (VARCHAR)
-- `NUMERO` (INT)
-- `LOCALIDAD` (VARCHAR)
-- `PROVINCIA` (VARCHAR)
-
-### Datos de Prueba
-
-La base de datos se inicializa automáticamente con datos de ejemplo:
-
-**Pacientes:**
-- Homero Simpson
-- Marge Simpson
-
-**Odontólogos:**
-- Luciano Sicolo
-- Juan Pérez
-
-**Domicilios:**
-- Siempre Viva 723, Springfield, USA
-- Calle Falsa 123, Springfield, USA
-
-## 🔧 Funcionalidades Principales
-
-### Gestión de Pacientes
-- ✅ Crear nuevo paciente
-- ✅ Buscar paciente por ID
-- ✅ Buscar paciente por nombre
-- ✅ Listar todos los pacientes
-- ✅ Modificar datos de paciente
-- ✅ Eliminar paciente
-
-### Gestión de Odontólogos
-- ✅ Crear nuevo odontólogo
-- ✅ Buscar odontólogo por ID
-- ✅ Buscar odontólogo por nombre
-- ✅ Listar todos los odontólogos
-- ✅ Modificar datos de odontólogo
-- ✅ Eliminar odontólogo
+---
 
 ## 🧪 Testing
 
-Para ejecutar los tests:
+### Ejecutar Tests
 
 ```bash
 mvn test
 ```
 
-Los tests incluyen:
-- Tests de servicios de Pacientes
-- Tests de servicios de Odontólogos
-- Tests de la aplicación principal
+### Tests Incluidos
 
-## 📝 Ejemplo de Uso
+- **ClinicaOdontologicaApplicationTests**: Test de contexto de Spring
+- **OdontologoTest**: Tests unitarios de Odontólogo
+- **PacienteTest**: Tests unitarios de Paciente
+- **TurnoTest**: Tests unitarios de Turno
+- **OdontologoIntegrationTest**: Tests de integración
+- **PacienteIntegrationTest**: Tests de integración
+- **TurnoIntegrationTest**: Tests de integración
 
-La clase `ClinicaOdontologicaApplication` contiene ejemplos de todas las operaciones CRUD:
+Los tests utilizan **Spring Security Test** para simular autenticación cuando es necesario.
 
-```java
-// Crear un nuevo paciente
-Paciente paciente = new Paciente("Bart", "Simpson", 11223344, "1", 
-    "bart@disney.com", LocalDate.of(2025, 10, 9));
-pacienteService.guardar(paciente);
+---
 
-// Buscar paciente por ID
-Paciente encontrado = pacienteService.buscar(2);
+## 🌐 Interfaz Web
 
-// Buscar por nombre
-Paciente porNombre = pacienteService.buscarPorNombre("Marge");
+El proyecto incluye una interfaz web en `src/main/resources/static/`:
 
-// Listar todos
-List<Paciente> todos = pacienteService.buscarTodos();
+### Páginas HTML
 
-// Modificar paciente
-paciente.setNombre("Homer");
-pacienteService.modificar(paciente);
+- **index.html**: Página principal
+- **login.html**: Página de login
+- **register.html**: Página de registro
+- **pacienteLista.html**: Lista de pacientes
+- **odontologoLista.html**: Lista de odontólogos
+- **turnoLista.html**: Lista de turnos
+- **datosPacientes.html**, **datosOdontologos.html**, **datosTurno.html**: Formularios
 
-// Eliminar paciente
-pacienteService.eliminar(2);
+### JavaScript
+
+- **js/navbarLoader.js**: Carga dinámica del navbar
+- **js/paciente/**: Funciones para gestión de pacientes
+- **js/odontologo/**: Funciones para gestión de odontólogos
+- **js/Turno/**: Funciones para gestión de turnos
+
+### Estilos
+
+- **css/styles.css**: Estilos generales
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+El proyecto sigue una **arquitectura en capas** típica de Spring Boot:
+
 ```
-
-## 🏗️ Arquitectura
-
-El proyecto sigue una arquitectura en capas:
-
-1. **Capa de Modelo** (`model/`): Define las entidades del dominio
-2. **Capa de Acceso a Datos** (`dao/`): Maneja la persistencia con la base de datos
-3. **Capa de Servicio** (`service/`): Contiene la lógica de negocio
-4. **Capa de Aplicación**: Clase principal que orquesta las operaciones
+┌─────────────────────────────────────┐
+│         Controllers (REST)          │  ← Capa de Presentación
+├─────────────────────────────────────┤
+│         Services (Lógica)           │  ← Capa de Negocio
+├─────────────────────────────────────┤
+│      Repositories (JPA)             │  ← Capa de Acceso a Datos
+├─────────────────────────────────────┤
+│      Entities (Modelo)              │  ← Capa de Dominio
+└─────────────────────────────────────┘
+```
 
 ### Patrones de Diseño Utilizados
 
-- **DAO (Data Access Object)**: Separación entre lógica de negocio y persistencia
-- **Dependency Injection**: A través de constructores
-- **Interface Segregation**: Interfaces genéricas `IDAO<T>` e `ISERVICE<T>`
+1. **Repository Pattern**: Spring Data JPA abstrae el acceso a datos
+2. **Service Layer Pattern**: Separación de lógica de negocio
+3. **DTO Pattern**: Transferencia de datos entre capas
+4. **Dependency Injection**: Inyección de dependencias con `@Autowired`
+5. **Strategy Pattern**: `UserDetailsService` para autenticación
+6. **Exception Handling Pattern**: Manejo centralizado con `@ControllerAdvice`
 
-## Video Ejemplo
+---
 
-    
+## 📝 DTOs (Data Transfer Objects)
 
-https://github.com/user-attachments/assets/498d8d20-bf2e-490c-8215-950ca95142f1
+### **OdontologoDTO**
+- `id`, `nombre`, `apellido`, `matricula`
+- Excluye la relación `turnos` para evitar recursión
 
+### **PacienteDTO**
+- `id`, `nombre`, `apellido`, `numeroContacto`, `fechaIngreso`, `email`, `domicilio`
+- Incluye objeto `Domicilio` completo
+- Excluye la relación `turnos`
 
+### **TurnoDTO**
+- `id`, `fecha`, `paciente` (PacienteDTO), `odontologo` (OdontologoDTO)
+- Incluye DTOs anidados de paciente y odontólogo
+
+### **RegistroDTO**
+- `nombre`, `apellido`, `userName`, `email`, `password`
+- Usado para registro de nuevos usuarios
+
+### **ExceptionDTO**
+- `message`: Mensaje de error
+
+---
+
+## 🔍 Validaciones y Reglas de Negocio
+
+### Pacientes
+- El **email debe ser único** (validado en `PacienteService.guardarPaciente()`)
+- Relación **OneToOne** con Domicilio (cascade ALL)
+
+### Odontólogos
+- La **matrícula debe ser única** (constraint a nivel de entidad)
+- Relación **OneToMany** con Turnos (LAZY loading)
+
+### Turnos
+- **Debe existir** el Paciente referenciado (validado en servicio)
+- **Debe existir** el Odontólogo referenciado (validado en servicio)
+
+### Usuarios
+- El **email debe ser único** (constraint a nivel de entidad)
+- **Password encriptado** con BCrypt antes de guardar
+- **Rol por defecto**: `ROLE_USER` para nuevos registros
+
+---
+
+## 🐛 Debugging y Consola H2
+
+### Acceder a la Consola H2
+
+1. Ejecutar la aplicación
+2. Navegar a: `http://localhost:8080/h2-console`
+3. Configuración:
+   - **JDBC URL**: `jdbc:h2:~/test`
+   - **Username**: `sa`
+   - **Password**: `sa`
+4. Click en "Connect"
+
+### Consultas Útiles
+
+```sql
+-- Ver todos los pacientes
+SELECT * FROM pacientes;
+
+-- Ver todos los odontólogos
+SELECT * FROM odontologos;
+
+-- Ver todos los turnos con información de paciente y odontólogo
+SELECT t.*, p.nombre as paciente_nombre, o.nombre as odontologo_nombre
+FROM turnos t
+JOIN pacientes p ON t.paciente_id = p.id
+JOIN odontologos o ON t.odontologo_id = o.id;
+
+-- Ver todos los usuarios
+SELECT * FROM usuarios;
+```
+
+---
+
+## 📚 Dependencias Maven Clave
+
+```xml
+<!-- Spring Boot Web -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!-- Spring Data JPA -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+<!-- Spring Security -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+<!-- H2 Database -->
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
+<!-- Lombok -->
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+
+---
+
+## ⚙️ Configuración Avanzada
+
+### Cambiar el Puerto
+
+En `application.properties`:
+```properties
+server.port=8081
+```
+
+### Cambiar Estrategia de Base de Datos
+
+De `create-drop` a `update` para persistir datos entre reinicios:
+```properties
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### Habilitar Logs SQL
+
+Ya está habilitado:
+```properties
+spring.jpa.show-sql=true
+```
+
+---
+
+## 🚨 Notas Importantes
+
+1. **CSRF Deshabilitado**: En producción, habilitar CSRF para mayor seguridad
+2. **Base de Datos en Memoria**: Los datos se pierden al reiniciar la aplicación
+3. **Password Hardcodeado**: El usuario admin se crea con password `admin` (cambiar en producción)
+4. **Log4j Versión Antigua**: Se recomienda actualizar a Log4j2 o usar el logging de Spring Boot
+
+---
 
 ## 👥 Autores
 
-Juan Ignacio Bellavitis
-Luciano Sicolo
+- **Juan Ignacio Bellavitis**
+- **Luciano Sicolo**
 
 ---
+
+## 📄 Licencia
+
+Este proyecto fue desarrollado como parte de un parcial académico de la materia "APIs y Microservicios" de la Universidad de Palermo (UP).
+
+---
+
+## 🔗 Recursos Adicionales
+
+- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+- [Spring Security Documentation](https://spring.io/projects/spring-security)
+- [Spring Data JPA Documentation](https://spring.io/projects/spring-data-jpa)
+- [H2 Database Documentation](https://www.h2database.com/html/main.html)
+
+---
+
+**Versión del Proyecto**: 0.0.1-SNAPSHOT  
+**Última Actualización**: 2024
